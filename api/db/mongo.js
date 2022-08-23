@@ -6,17 +6,17 @@ const connectionString = `mongodb+srv://CrisAlvarez:${password}@cluster0.vceyvwh
 
 //conexion de mongodb
 mongoose
-  .connect(connectionString)
-  .then(() => {
-    console.log("Base de datos conectada");
-  })
-  .catch((err) => console.error(err));
+    .connect(connectionString)
+    .then(() => {
+        console.log("Base de datos conectada");
+    })
+    .catch((err) => console.error(err));
 
 //schema de users
 const usersSchema = new Schema({
-  Name: String,
-  LastName: String,
-  Age: Number,
+    Name: String,
+    LastName: String,
+    Age: Number,
 });
 
 //Modelo de users
@@ -40,8 +40,8 @@ const User = model("User", usersSchema);
 
 //Encontrar todos
 User.find({})
-  .then((result) => {
-    console.log(result);
-    mongoose.connection.close();
-  })
-  .catch((err) => console.error(err));
+    .then((result) => {
+        console.log(result);
+        mongoose.connection.close();
+    })
+    .catch((err) => console.error(err));
