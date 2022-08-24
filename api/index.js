@@ -8,6 +8,7 @@ const routes = require("./routes");
 const cookieParser = require("cookie-parser");
 const app = express();
 
+
 //Se llama al modelo
 const { User, Product, Payment, Car } = require("./models");
 
@@ -21,7 +22,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use("/api", () => console.log("HOALAAA"));
+app.use("/api", routes);
 
 const PORT = process.env.PORT || 3001;
 

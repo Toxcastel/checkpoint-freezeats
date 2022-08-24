@@ -1,4 +1,4 @@
-const usersCtrl = require("./users")
+const userCtrl = require("./users")
 
 
-module.exports={usersCtrl}
+module.exports={ userCtrl }
