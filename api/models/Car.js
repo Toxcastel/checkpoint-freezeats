@@ -2,8 +2,9 @@ const { model, Schema } = require("mongoose");
 
 //schema of Car
 const carSchema = new Schema({
-    Products: [],
-    Address: String
+    products: [Object],
+    address: String,
+    idUser: String,
 },{versionKey:false});
 
 //Revisar la referencia para el campo Products, debido a que puede crecer indefinidamente, o limitar desde el front

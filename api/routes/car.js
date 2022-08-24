@@ -1,4 +1,4 @@
-const {CarCtrl} = require("../controllers/Car")
+const {CarCtrl} = require("../controllers/car")
 const express = require("express")
 
 const router = express.Router()

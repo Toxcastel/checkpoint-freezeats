@@ -3,16 +3,16 @@ const { model, Schema } = require("mongoose");
 //schema of users
 const usersSchema = new Schema(
   {
-    Name: String,
-    LastName: String,
-    Password: String,
-    Email: String,
-    Addresses: [String],
-    CellPhone: Number,
-    Favorites: String,
-    Menus: String,
-    OrderHistory: [String],
-    Role: String,
+    name: String,
+    lastName: String,
+    password: String,
+    email: String,
+    addresses: [String],
+    cellPhone: Number,
+    favorites: String,
+    menus: String,
+    orderHistory: [String],
+    role: String,
   },
   { versionKey: false }
 );
