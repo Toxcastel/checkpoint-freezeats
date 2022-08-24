@@ -8,6 +8,7 @@ const routes = require("./routes/products");
 const cookieParser = require("cookie-parser");
 const app = express();
 
+
 //Se llama al modelo
 const { User, Product, Payment, Car } = require("./models");
 
