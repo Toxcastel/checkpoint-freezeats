@@ -28,8 +28,7 @@ const userCtrl = {
 
   updateUser: (req, res) => {
     const { email } = req.body;
-    const newCant = { cant: req.body };
-     console.log(req.body.cant)
+    const newCant = { cant: req.body.cant };
     User.findOneAndUpdate(email, newCant, { new: true }).then((updated) =>
       res.json(updated)
     );
