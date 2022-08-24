@@ -2,15 +2,20 @@ const { model, Schema } = require("mongoose");
 
 //schema of Product
 const productsSchema = new Schema({
-    Name: String,
-    Description: String,
-    Stock: Number,
-    Price: Number,
-    Category: [String],
-    Rating: Number
+    name: String,
+    description: String,
+    stock: Number,
+    price: Number,
+    category: [String],
+    rating: Number
 },{versionKey:false});
 
-//Revisar si el rating se va hacer en base a una calificacion numerica ?
+productsSchema.set("toJSON", {
+    transform: (document, returnedObject) => {
+      returnedObject.id = returnedObject._id.toString().split('"')[0]
+      delete returnedObject._id;
+    },
+  });
 
 //Model of Product
 const Product = model("Product", productsSchema);
