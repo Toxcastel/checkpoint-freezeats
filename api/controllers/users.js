@@ -1,15 +1,17 @@
 const { User } = require("../models");
+const handleErrors = require("../utils/auth.utils.js");
 
 const userCtrl = {
   signIn: (req, res) => {
-    const { Name, LastName, Password, Email } = req.body;
-    let user = new User({
-      Name,
-      LastName,
-      Password,
-      Email,
-    });
-    user.save().then((user) => console.log(user));
+    const { email, password } = req.body;
+    User.create({ email, password })
+      .then((user) => {
+        res.status(201).json(user);
+      })
+      .catch((err) => {
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });
+      });
   },
 
   login: (req, res) => {
@@ -28,9 +30,7 @@ const userCtrl = {
 
   updateUser: (req, res) => {
     const { email } = req.body;
-    const newCant = { cant: req.body };
-     console.log(req.body.cant)
-    User.findOneAndUpdate(email, newCant, { new: true }).then((updated) =>
+    User.findOneAndUpdate(email, req.body, { new: true }).then((updated) =>
       res.json(updated)
     );
   },

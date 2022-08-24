@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Car } = require("../models");
 
-const CarCtrl = {
+const carCtrl = {
   addProductToCart: (req, res) => {
     let newProduct = new Car({
       products: req.body.products,
@@ -38,4 +38,4 @@ const CarCtrl = {
   },
 };
 
-module.exports = {CarCtrl};
+module.exports = carCtrl;
