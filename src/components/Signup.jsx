@@ -18,11 +18,14 @@ const Signup = () => {
                 name: name.value,
                 lastname: lastname.value,
             })
-            .then((res) => alert(`Usuario ${res.data.name} creado!!`))
-            .catch((err) => {
-                console.error("Something is wrong ", err);
+            .then((res) => {
+                console.log("user created: ", res);
+                navigate("/login");
+            })
+            .catch(({ response }) => {
+                const msg = Object.values(response.data.errors);
+                alert(msg[0]);
             });
-        navigate("/login");
     };
     return (
         <div className="container">
