@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const handleErrors = require("../utils/auth.utils.js");
 
 const getSignUp = (req, res) => {};
 
@@ -12,7 +13,10 @@ const postSignUp = (req, res) => {
         .then((user) => {
             res.status(201).json(user);
         })
-        .catch((err) => console.error("user not created: ", err));
+        .catch((err) => {
+            const errors = handleErrors(err);
+            res.status(400).json({ errors });
+        });
 };
 
 const postLogIn = (req, res) => {

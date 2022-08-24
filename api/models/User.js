@@ -1,20 +1,24 @@
 const { model, Schema } = require("mongoose");
+const { isEmail } = require("validator");
+const bcrypt = require("bcrypt");
 
 //schema of users
 const usersSchema = new Schema(
     {
         name: String,
         lastName: String,
-        password: {
-            type: String,
-            required: true,
-        },
         email: {
             type: String,
-            required: true,
+            required: [true, "email required"],
             unique: true,
             lowerCase: true,
+            validate: [isEmail, "enter valid email"],
         },
+        password: {
+            type: String,
+            required: [true, "password required"],
+        },
+        salt: String,
         addresses: [String],
         cellPhone: Number,
         favorites: String,
@@ -32,6 +36,20 @@ usersSchema.set("toJSON", {
         returnedObject.id = returnedObject._id.toString().split('"')[0];
         delete returnedObject._id;
     },
+});
+
+/*----------------------------------------------
+  --------------- AUTH HOOKS -------------------
+  ---------------------------------------------- */
+
+// esto es para el hash. Después de un evento 'save', dispara una función
+// como estos son métodos de instacia, nos conviene usar el function regular y hacer el llamado a this
+usersSchema.pre("save", function () {
+    const salt = bcrypt.genSaltSync();
+    this.salt = salt;
+    return bcrypt.hash(this.password, salt).then((hash) => {
+        this.password = hash;
+    });
 });
 
 //Modelo of users
