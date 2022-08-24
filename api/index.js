@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use("/api", () => console.log("HOALAAA"));
+app.use("/api",routes);
 
 const PORT = process.env.PORT || 3001;
 

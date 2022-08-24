@@ -1,43 +1,41 @@
 const mongoose = require("mongoose");
-const {Car} = require("../models")
+const { Car } = require("../models");
 
-
-
-const addProductToCart = (req,res) =>{
+const CarCtrl = {
+  addProductToCart: (req, res) => {
     let newProduct = new Car({
-        Products: req.body.products,
-        Quant: req.body.cant,
-        Address: req.body.address
-    })
+      products: req.body.products,
+      quantity: req.body.cant,
+      address: req.body.address,
+    });
 
     newProduct.save().then((prod) => {
-        res.json(prod)
-    })
-}
+      res.json(prod);
+    });
+  },
 
-const findAllProductsInCart = (req,res) =>{
-    Car.find({}).then((prods)=>{
-        res.json(prods)
-    })
-}
+  findAllProductsInCart: (req, res) => {
+    Car.find({}).then((prods) => {
+      res.json(prods);
+    });
+  },
 
-const deleteProductToCart = (req,res) =>{
-    const {id} = req.params;
-    Car.findByIdAndRemove(id).then((result)=>{
-        res.status(204).end()
-    })
+  deleteProductToCart: (req, res) => {
+    const { id } = req.params;
+    Car.findByIdAndRemove(id).then((result) => {
+      res.status(204).end();
+    });
+  },
 
-}
+  updateProductToCart: (req, res) => {
+    const { id } = req.params;
 
-const updateProductToCart = (req,res) =>{
-    const {id} = req.params;
+    const newCant = { quantity: req.body.cant };
 
-    const newCant = {Quant:req.body.cant}
+    Car.findByIdAndUpdate(id, newCant, { new: true }).then((result) => {
+      res.json(result);
+    });
+  },
+};
 
-    Car.findByIdAndUpdate(id, newCant, {new:true}).then((result)=>{
-        res.json(result)
-    })
-
-}
-
-module.exports = {addProductToCart, findAllProductsInCart, deleteProductToCart, updateProductToCart}
+module.exports = {CarCtrl};
