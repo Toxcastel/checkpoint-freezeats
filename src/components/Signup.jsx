@@ -12,14 +12,14 @@ const Signup = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("/api/sign", {
+            .post("/api/signup", {
                 email: email.value,
                 password: password.value,
                 name: name.value,
                 lastName: lastName.value,
             })
             .then((res) => {
-                console.log("user created: ", res);
+                alert("user created :D");
                 navigate("/login");
             })
             .catch(({ response }) => {

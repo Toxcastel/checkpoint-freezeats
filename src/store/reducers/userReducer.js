@@ -3,18 +3,22 @@ import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 
 export const logHandler = createAsyncThunk("LOG_HANDLER", (obj) => {
     return axios.post("/api/login", obj).then(({ data }) => {
-        if (data.id) {
-            return data;
-        } else {
-            return [];
-        }
+        const { user } = data;
+        if (user.id) return user;
+        else return [];
+    });
+});
+
+export const logPersist = createAsyncThunk("LOG_PERSIST", () => {
+    return axios.get("/api/profile").then(({ data }) => {
+        if (data.id) return data;
+        else return [];
     });
 });
 
 const userReducer = createReducer([], {
-    [logHandler.fulfilled]: (state, action) => {
-        return action.payload;
-    },
+    [logHandler.fulfilled]: (state, action) => action.payload,
+    [logPersist.fulfilled]: (state, action) => action.payload,
 });
 
 export default userReducer;

@@ -6,10 +6,9 @@ const cors = require("cors");
 const morgan = require("morgan");
 const routes = require("./routes");
 const cookieParser = require("cookie-parser");
+const { createRoles } = require("./utils/auth.utils.js");
 const app = express();
-
-//Se llama al modelo
-const { User, Product, Payment, Car } = require("./models");
+createRoles();
 
 require("dotenv").config();
 
@@ -25,5 +24,5 @@ app.use("/api", routes);
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log(`server listening on http://localhost:${PORT}`);
+    console.log(`server listening on http://localhost:${PORT}`);
 });

@@ -1,17 +1,17 @@
 const { generateToken } = require("../config/tokens");
 const { User } = require("../models");
-const handleErrors = require("../utils/auth.utils.js");
+const { handleErrors } = require("../utils/auth.utils.js");
 const maxAge = 24 * 60 * 60 * 1000;
 
 const userCtrl = {
-    signIn: (req, res) => {
-        const { email, password } = req.body;
-        User.create({ email, password })
+    signup: (req, res) => {
+        User.create(req.body)
             .then((user) => {
                 res.cookie("jwt", generateToken(user._id), {
                     httpOnly: true,
                     maxAge,
                 });
+
                 res.status(201).json({ user: user._id });
             })
             .catch((err) => {
@@ -21,14 +21,13 @@ const userCtrl = {
     },
 
     login: (req, res) => {
-        const { email, password } = req.body;
-        User.login(email, password)
+        User.login(req.body)
             .then((user) => {
                 res.cookie("jwt", generateToken(user._id), {
                     httpOnly: true,
                     maxAge,
                 });
-                res.status(200).json({ user: user._id });
+                res.status(200).json({ user });
             })
             .catch((err) => {
                 const errors = handleErrors(err);
@@ -43,15 +42,13 @@ const userCtrl = {
 
     updateUser: (req, res) => {
         const { email } = req.body;
-
         User.findOneAndUpdate(email, req.body, { new: true }).then((updated) =>
             res.json(updated)
         );
     },
 
     getUser: (req, res) => {
-        const { id } = req.params.id;
-        User.find(id).then((user) => res.json(user));
+        User.findById(req.user).then((user) => res.status(200).json(user));
     },
 };
 

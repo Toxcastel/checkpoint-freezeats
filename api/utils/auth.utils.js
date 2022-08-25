@@ -1,3 +1,5 @@
+const Role = require("../models/Role");
+
 const handleErrors = (err) => {
     let errors = { email: "", password: "" };
 
@@ -23,4 +25,16 @@ const handleErrors = (err) => {
     return errors;
 };
 
-module.exports = handleErrors;
+const createRoles = () => {
+    Role.estimatedDocumentCount()
+        .then((count) => {
+            if (count > 0) return;
+            return Promise.all([
+                Role.create({ name: "user" }),
+                Role.create({ name: "admin" }),
+            ]).then((values) => console.log("Roles creados: ", values));
+        })
+        .catch((err) => console.error("Roles no creados: ", err));
+};
+
+module.exports = { handleErrors, createRoles };

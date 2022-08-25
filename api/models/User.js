@@ -1,6 +1,7 @@
 const { model, Schema } = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
+const Role = require("./Role");
 
 //schema of users
 const usersSchema = new Schema(
@@ -18,12 +19,14 @@ const usersSchema = new Schema(
             type: String,
             required: [true, "password required"],
         },
-        salt: String,
         addresses: [String],
         cellPhone: Number,
         favorites: [String],
         orderHistory: [String],
-        role: String,
+        role: {
+            ref: "Role",
+            type: Schema.Types.ObjectId,
+        },
     },
     { versionKey: false }
 );
@@ -39,26 +42,38 @@ usersSchema.set("toJSON", {
     },
 });
 
-// esto es para el hash. Después de un evento 'save', dispara una función
+// esto es para el hash. Antes de un evento 'save', dispara una función
 // como estos son métodos de instacia, nos conviene usar el function regular y hacer el llamado a this
 usersSchema.pre("save", function () {
     const salt = bcrypt.genSaltSync();
-    this.salt = salt;
-    return bcrypt.hash(this.password, salt).then((hash) => {
-        this.password = hash;
-    });
+    return bcrypt
+        .hash(this.password, salt)
+        .then((hash) => {
+            this.password = hash;
+        })
+        .then(() => {
+            if (this.role) {
+                return Role.findOne({ name: "admin" }).then((rol) => {
+                    this.role = [rol._id];
+                });
+            } else {
+                return Role.findOne({ name: "user" }).then((rol) => {
+                    this.role = [rol._id];
+                });
+            }
+        });
 });
 
 /*----------------------------------------------
   --------------- CLASS M -------------------
   ---------------------------------------------- */
 
-usersSchema.statics.login = function (email, password) {
+// Método de clase para validar contraseña y manejo de errores
+usersSchema.statics.login = function ({ email, password }) {
     return this.findOne({ email }).then((user) => {
         if (user) {
             return bcrypt.compare(password, user.password).then((auth) => {
                 if (auth) {
-                    console.log("auth", auth);
                     return user;
                 }
                 throw Error("incorrect password");
@@ -68,7 +83,6 @@ usersSchema.statics.login = function (email, password) {
     });
 };
 
-//Modelo of users
 const User = model("User", usersSchema);
 
 module.exports = User;
