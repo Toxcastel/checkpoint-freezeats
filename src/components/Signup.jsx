@@ -7,16 +7,16 @@ const Signup = () => {
     const email = useInput("email");
     const password = useInput("password");
     const name = useInput("name");
-    const lastname = useInput("lastname");
+    const lastName = useInput("lastName");
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("/api/signup", {
+            .post("/api/sign", {
                 email: email.value,
                 password: password.value,
                 name: name.value,
-                lastname: lastname.value,
+                lastName: lastName.value,
             })
             .then((res) => {
                 console.log("user created: ", res);
@@ -81,7 +81,7 @@ const Signup = () => {
                                 aria-label="Last Name"
                                 type="text"
                                 placeholder="Last Name"
-                                {...lastname}
+                                {...lastName}
                             />
                         </div>
                         <div>

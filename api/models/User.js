@@ -4,51 +4,69 @@ const bcrypt = require("bcrypt");
 
 //schema of users
 const usersSchema = new Schema(
-  {
-    name: String,
-    lastName: String,
-    email: {
-      type: String,
-      required: [true, "email required"],
-      unique: true,
-      lowerCase: true,
-      validate: [isEmail, "enter valid email"],
+    {
+        name: String,
+        lastName: String,
+        email: {
+            type: String,
+            required: [true, "email required"],
+            unique: true,
+            lowerCase: true,
+            validate: [isEmail, "enter valid email"],
+        },
+        password: {
+            type: String,
+            required: [true, "password required"],
+        },
+        salt: String,
+        addresses: [String],
+        cellPhone: Number,
+        favorites: [String],
+        orderHistory: [String],
+        role: String,
     },
-    password: {
-      type: String,
-      required: [true, "password required"],
-    },
-    salt: String,
-    addresses: [String],
-    cellPhone: Number,
-    favorites: [String],
-    orderHistory: [String],
-    role: String,
-  },
-  { versionKey: false }
+    { versionKey: false }
 );
-
-//Con este set lo que se hace es convertir la data que viene de la base, mas no la que se almacena
-usersSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString().split('"')[0];
-    delete returnedObject._id;
-  },
-});
-
 /*----------------------------------------------
   --------------- AUTH HOOKS -------------------
   ---------------------------------------------- */
 
+//Con este set lo que se hace es convertir la data que viene de la base, mas no la que se almacena
+usersSchema.set("toJSON", {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString().split('"')[0];
+        delete returnedObject._id;
+    },
+});
+
 // esto es para el hash. Después de un evento 'save', dispara una función
 // como estos son métodos de instacia, nos conviene usar el function regular y hacer el llamado a this
 usersSchema.pre("save", function () {
-  const salt = bcrypt.genSaltSync();
-  this.salt = salt;
-  return bcrypt.hash(this.password, salt).then((hash) => {
-    this.password = hash;
-  });
+    const salt = bcrypt.genSaltSync();
+    this.salt = salt;
+    return bcrypt.hash(this.password, salt).then((hash) => {
+        this.password = hash;
+    });
 });
+
+/*----------------------------------------------
+  --------------- CLASS M -------------------
+  ---------------------------------------------- */
+
+usersSchema.statics.login = function (email, password) {
+    return this.findOne({ email }).then((user) => {
+        if (user) {
+            return bcrypt.compare(password, user.password).then((auth) => {
+                if (auth) {
+                    console.log("auth", auth);
+                    return user;
+                }
+                throw Error("incorrect password");
+            });
+        }
+        throw Error("incorrect email");
+    });
+};
 
 //Modelo of users
 const User = model("User", usersSchema);
