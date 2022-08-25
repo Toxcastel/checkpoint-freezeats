@@ -1,6 +1,13 @@
 const handleErrors = (err) => {
     let errors = { email: "", password: "" };
 
+    if (err.message === "incorrect email") {
+        errors.email = "email is not registered";
+    }
+
+    if (err.message === "incorrect password") {
+        errors.password = "password is incorrect";
+    }
     // valida si el correo ya existe
     if (err.code === 11000) {
         errors.email = "email already in use";

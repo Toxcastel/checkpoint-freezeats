@@ -8,8 +8,10 @@ const userCtrl = {
         const { email, password } = req.body;
         User.create({ email, password })
             .then((user) => {
-                const token = generateToken(user._id);
-                res.cookie("jwt", token, { httpOnly: true, maxAge });
+                res.cookie("jwt", generateToken(user._id), {
+                    httpOnly: true,
+                    maxAge,
+                });
                 res.status(201).json({ user: user._id });
             })
             .catch((err) => {
@@ -22,10 +24,16 @@ const userCtrl = {
         const { email, password } = req.body;
         User.login(email, password)
             .then((user) => {
-                console.log("USER: ", user);
+                res.cookie("jwt", generateToken(user._id), {
+                    httpOnly: true,
+                    maxAge,
+                });
                 res.status(200).json({ user: user._id });
             })
-            .catch((err) => res.status(400).json({}));
+            .catch((err) => {
+                const errors = handleErrors(err);
+                res.status(400).json({ errors });
+            });
     },
 
     logout: (req, res) => {
