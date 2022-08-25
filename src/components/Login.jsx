@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { logHandler } from "../store/reducers/userReducer";
 const Login = () => {
     // variables
-
     const email = useInput("email");
     const password = useInput("password");
     const navigate = useNavigate();
