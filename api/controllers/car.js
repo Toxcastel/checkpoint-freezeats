@@ -1,40 +1,66 @@
-const { Car } = require("../models");
+const { Car, User } = require("../models");
 
 const carCtrl = {
-    addProductToCart: (req, res) => {
-        let newProduct = new Car({
-            products: req.body.products,
-            quantity: req.body.cant,
-            address: req.body.address,
-        });
+  
+  addProductToCart: (req, res) => {
+    const { products, address, userId } = req.body;
+    Car.find({ user: userId }).then((prods) => {
+      if (prods.length == 0) {
+        User.findById(userId).then((user) => {
+          let newProduct = new Car({
+            products,
+            address,
+            user: user.id,
+          });
 
-        newProduct.save().then((prod) => {
+          newProduct.save().then((prod) => {
             res.json(prod);
+          });
         });
-    },
-
-    findAllProductsInCart: (req, res) => {
-        Car.find({}).then((prods) => {
-            res.json(prods);
+      } else {
+        const prod = prods[0].products.concat(products);
+        Car.findByIdAndUpdate(
+          prods[0].id,
+          { products: prod },
+          { new: true }
+        ).then((result) => {
+          res.json(result);
         });
-    },
+      }
+    });
+  },
 
-    deleteProductToCart: (req, res) => {
-        const { id } = req.params;
-        Car.findByIdAndRemove(id).then((result) => {
-            res.status(204).end();
-        });
-    },
+  findAllProductsInCart: (req, res) => {
+    const id = req.headers.id;
+    Car.find({ user: id }).then((prods) => {
+      res.json(prods);
+    });
+  },
 
-    updateProductToCart: (req, res) => {
-        const { id } = req.params;
+  deleteProductToCart: (req, res) => {
+    const { id, productid } = req.headers;
+    Car.findById(id).then((cart) => {
+      const newCart = cart.products.filter((prod) => prod.id !== productid);
+      cart.products = newCart;
+      cart.save();
+      res.json(cart);
+    });
+  },
 
-        const newCant = { quantity: req.body.cant };
+  updateProductToCart: (req, res) => {
+    const { quantity } = req.body;
+    const { id, productid } = req.headers;
+    Car.findById(id).then((cart) => {
+      cart.products.map((prod) => {
+        if (prod.id === productid) {
+          prod.quantity = quantity;
+        }
+      });
+      cart.save();
+      res.json(cart);
+    });
+  },
 
-        Car.findByIdAndUpdate(id, newCant, { new: true }).then((result) => {
-            res.json(result);
-        });
-    },
 };
 
 module.exports = carCtrl;

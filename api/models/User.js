@@ -22,7 +22,7 @@ const usersSchema = new Schema(
         addresses: [String],
         cellPhone: Number,
         favorites: [String],
-        orderHistory: [String],
+        orderHistory: [{type: Schema.Types.ObjectId, ref:"Order"}],
         role: {
             ref: "Role",
             type: Schema.Types.ObjectId,

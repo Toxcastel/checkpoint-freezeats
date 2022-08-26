@@ -46,10 +46,11 @@ const userCtrl = {
             res.json(updated)
         );
     },
-
+    
     getUser: (req, res) => {
         User.findById(req.user).then((user) => res.status(200).json(user));
     },
+
 };
 
 module.exports = userCtrl;
