@@ -1,32 +1,43 @@
 const Product = require("../models/Products");
-const prodCtrl = {
-    getProducts: async (req, res) => {
-        const products = await Product.find();
-        res.send(products);
-    },
-    getOneProduct: async (req, res) => {
-        const product = await Product.findById({ _id: req.params.id });
-        res.send(product);
-    },
-    postProduct: async (req, res) => {
-        const { id, name, description, stock, price, category, rating } =
-            req.body;
-        const product = new Product({
-            id,
-            name,
-            description,
-            stock,
-            price,
-            category,
-            rating,
-        });
-        await product.save();
-        res.send(product);
-    },
-    editProduct: async (req, res) => {
-        try {
-            const product = await Product.findById({ _id: req.params.id });
 
+const prodCtrl = {
+
+  getProducts: async (req, res) => {
+    const products = await Product.find();
+    res.send(products);
+  },
+  getProductsByCategory: async (req, res) => {
+    const category = req.params.category;
+    console.log("category", category);
+    const products = await Product.find({ category });
+    res.send(products);
+  },
+  getProductByName: async (req, res) => {
+    const {name} = req.params
+    const product = await Product.find({ name:{$regex:name.toLowerCase()} });
+    res.send(product);
+  },
+  getOneProduct: async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findById({ _id: id });
+    res.send(product);
+  },
+  postProduct: async (req, res) => {
+    const { name, description, stock, price, category, rating } = req.body;
+    const product = new Product({
+      name,
+      description,
+      stock,
+      price,
+      category,
+      rating,
+    });
+    await product.save();
+    res.send(product);
+  },
+  editProduct: async (req, res) => {
+    try {
+      const product = await Product.findById({ _id: req.params.id });
             if (req.body.name) {
                 product.name = req.body.name;
             }
