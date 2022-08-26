@@ -2,10 +2,15 @@ const user = require("./users");
 const express = require("express");
 const router = express.Router();
 const car = require("./car");
-const products = require("./products");
+const products = require('./products');
+const order = require("./order");
 
-router.use(user);
+
+
+router.use("/user",user);
 router.use("/car", car);
-router.use("/products", products);
+router.use("/products",products);
+router.use("/order", order);
+
 
 module.exports = router;
