@@ -1,39 +1,64 @@
 const mongoose = require("mongoose");
-const { Car } = require("../models");
+const { Car, User } = require("../models");
 
 const carCtrl = {
+  
   addProductToCart: (req, res) => {
-    let newProduct = new Car({
-      products: req.body.products,
-      quantity: req.body.cant,
-      address: req.body.address,
-    });
+    const { products, address, userId } = req.body;
+    Car.find({ user: userId }).then((prods) => {
+      if (prods.length == 0) {
+        User.findById(userId).then((user) => {
+          let newProduct = new Car({
+            products,
+            address,
+            user: user.id,
+          });
 
-    newProduct.save().then((prod) => {
-      res.json(prod);
+          newProduct.save().then((prod) => {
+            res.json(prod);
+          });
+        });
+      } else {
+        const prod = prods[0].products.concat(products);
+        Car.findByIdAndUpdate(
+          prods[0].id,
+          { products: prod },
+          { new: true }
+        ).then((result) => {
+          res.json(result);
+        });
+      }
     });
   },
 
   findAllProductsInCart: (req, res) => {
-    Car.find({}).then((prods) => {
+    const id = req.headers.id;
+    Car.find({ user: id }).then((prods) => {
       res.json(prods);
     });
   },
 
   deleteProductToCart: (req, res) => {
-    const { id } = req.params;
-    Car.findByIdAndRemove(id).then((result) => {
-      res.status(204).end();
+    const { id, productid } = req.headers;
+    Car.findById(id).then((cart) => {
+      const newCart = cart.products.filter((prod) => prod.id !== productid);
+      cart.products = newCart;
+      cart.save();
+      res.json(cart);
     });
   },
 
   updateProductToCart: (req, res) => {
-    const { id } = req.params;
-
-    const newCant = { quantity: req.body.cant };
-
-    Car.findByIdAndUpdate(id, newCant, { new: true }).then((result) => {
-      res.json(result);
+    const { quantity } = req.body;
+    const { id, productid } = req.headers;
+    Car.findById(id).then((cart) => {
+      cart.products.map((prod) => {
+        if (prod.id === productid) {
+          prod.quantity = quantity;
+        }
+      });
+      cart.save();
+      res.json(cart);
     });
   },
 };

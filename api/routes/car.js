@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get("/", carCtrl.findAllProductsInCart)
 router.post("/", carCtrl.addProductToCart)
-router.delete("/:id", carCtrl.deleteProductToCart)
-router.put("/:id", carCtrl.updateProductToCart)
+router.delete("/", carCtrl.deleteProductToCart)
+router.put("/", carCtrl.updateProductToCart)
 
 module.exports=router;

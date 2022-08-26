@@ -2,7 +2,8 @@ const { model, Schema } = require("mongoose");
 
 //schema of Order
 const orderSchema = new Schema({
-    Order: [Object]
+    info: Array,
+    user: String
 },{versionKey:false});
 
 

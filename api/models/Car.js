@@ -3,10 +3,9 @@ const { model, Schema } = require("mongoose");
 //schema of Car
 const carSchema = new Schema(
   {
-    products: [String],
+    products: [Object],
     address: String,
-    quantity: Number,
-    emailUser: String,
+    user: String,
   },
   { versionKey: false }
 );

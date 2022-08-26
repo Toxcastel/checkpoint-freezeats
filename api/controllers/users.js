@@ -37,8 +37,8 @@ const userCtrl = {
   },
 
   getUser: (req, res) => {
-    const { id } = req.params.id;
-    User.find(id).then((user) => res.json(user));
+    const  id  = req.params.id;
+    User.findById(id).then((user) => res.json(user));
   },
 };
 
