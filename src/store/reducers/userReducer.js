@@ -8,7 +8,7 @@ export const logHandler = createAsyncThunk("LOG_HANDLER", (obj) => {
         } else {
             return [];
         }
-    });
+    }); 
 });
 
 const userReducer = createReducer([], {
