@@ -12,7 +12,7 @@ const Signup = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("/api/signup", {
+            .post("/api/user/signup", {
                 email: email.value,
                 password: password.value,
                 name: name.value,

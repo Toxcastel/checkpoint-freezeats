@@ -23,7 +23,10 @@ const Login = () => {
                 alert(`Success login: welcome back ${payload.name}`);
             })
             .then(() => navigate("/profile"))
-            .catch((err) => alert(`Failed login: ${err.message}`));
+            .catch((err) => {
+                alert(`Failed login: ${err.message}`);
+                navigate("/");
+            });
     };
     return (
         <div className="container">
