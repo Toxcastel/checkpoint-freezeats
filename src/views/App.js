@@ -1,6 +1,6 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { logPersist } from "../store/reducers/userReducer.js";
 import Profile from "../components/Profile.jsx";
 import Navbar from "../components/Navbar.jsx";
@@ -13,7 +13,7 @@ function App() {
 
     useEffect(() => {
         dispatch(logPersist());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="App">
