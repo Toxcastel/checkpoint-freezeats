@@ -22,7 +22,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(handleProducts());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
