@@ -19,10 +19,19 @@ function App() {
         <div className="App">
             <Navbar />
             <Routes>
+                {/* rutas públicas */}
                 <Route path="/" element={<Home />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
+                {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
+
+                {/* rutas a proteger */}
                 <Route path="/profile" element={<Profile />} />
+                {/* <Route path="/admin" element={<Admin />} />
+                <Route path="/editor" element={<Editor />} /> */}
+
+                {/* catch all */}
+                {/* <Route path="*" element={<Missing />} /> */}
             </Routes>
         </div>
     );

@@ -1,6 +1,5 @@
 const { generateToken } = require("../config/tokens");
-const { User } = require("../models");
-const Role = require("../models/Role");
+const { User, Role } = require("../models");
 const { handleErrors } = require("../utils/auth.utils.js");
 const maxAge = 24 * 60 * 60 * 1000;
 
@@ -16,16 +15,16 @@ const userCtrl = {
                 const userRol = await Role.find({ name: "user" });
                 returnRoles = [userRol[0]._id];
             }
-            const user = await User.create({
+            await User.create({
                 email,
                 password,
                 name,
                 lastname,
                 roles: returnRoles,
             });
-            // const newUser = await user.save();
-
-            res.status(201).json({ user: user._id });
+            res.status(201).json({
+                message: `User has been created`,
+            });
         } catch (error) {
             const errors = handleErrors(error);
             res.status(400).json({ errors });
@@ -60,7 +59,9 @@ const userCtrl = {
     },
 
     getUser: (req, res) => {
-        User.findById(req.user).then((user) => res.status(200).json(user));
+        User.findById(req.user)
+            .then((user) => res.status(200).json(user))
+            .catch((err) => res.status(401).json(err));
     },
 };
 

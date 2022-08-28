@@ -3,6 +3,9 @@ import { useInput } from "../hooks/useInput";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { logHandler } from "../store/reducers/userReducer";
+import { message } from "antd";
+import axios from "axios";
+
 const Login = () => {
     // variables
     const email = useInput("email");
@@ -13,20 +16,36 @@ const Login = () => {
     // handles
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(
-            logHandler({
+        axios
+            .post("/api/user/login", {
                 email: email.value,
                 password: password.value,
             })
-        )
-            .then(({ payload }) => {
-                alert(`Success login: welcome back ${payload.name}`);
+            .then(({ data }) => {
+                dispatch(logHandler(data.user));
+                message.success(`Welcome ${data.user.name}!`);
+                navigate("/profile");
             })
-            .then(() => navigate("/profile"))
-            .catch((err) => {
-                alert(`Failed login: ${err.message}`);
-                navigate("/");
+            .catch(({ response }) => {
+                const msg = Object.values(response.data.errors);
+                msg.map((e) => e && message.error(e, 2));
             });
+        //     logHandler({
+        //         email: email.value,
+        //         password: password.value,
+        //     })
+        // )
+        //     .then(({ payload }) => {
+        //         message.success(`Welcome back ${payload.name}!`, 2);
+        //     })
+        //     .then(() => navigate("/profile"))
+        //     .catch((err) => {
+        //         console.log("error en Login: ", err);
+        //         // console.log("response: ", response);
+        //         // const msg = Object.values(response.data.errors);
+        //         // msg.map((e) => e && message.error(e, 2));
+        //         // navigate("/");
+        //     });
     };
     return (
         <div className="container">
