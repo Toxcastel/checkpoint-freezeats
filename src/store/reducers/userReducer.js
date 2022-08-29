@@ -2,7 +2,7 @@ import axios from "axios";
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 
 export const logHandler = createAsyncThunk("LOG_HANDLER", (obj) => {
-    return axios.post("/api/login", obj).then(({ data }) => {
+    return axios.post("/api/user/login", obj).then(({ data }) => {
         const { user } = data;
         if (user.id) return user;
         else return [];
@@ -10,7 +10,7 @@ export const logHandler = createAsyncThunk("LOG_HANDLER", (obj) => {
 });
 
 export const logPersist = createAsyncThunk("LOG_PERSIST", () => {
-    return axios.get("/api/profile").then(({ data }) => {
+    return axios.get("/api/user/profile").then(({ data }) => {
         if (data.id) return data;
         else return [];
     });

@@ -12,7 +12,7 @@ const Signup = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("/api/signup", {
+            .post("/api/user/signup", {
                 email: email.value,
                 password: password.value,
                 name: name.value,
@@ -72,7 +72,7 @@ const Signup = () => {
                             />
                         </div>
                         <div className="mb-3">
-                            <label for="lastName" className="form-label">
+                            <label htmlFor="lastName" className="form-label">
                                 Last Name:
                             </label>
                             <input
@@ -85,7 +85,7 @@ const Signup = () => {
                             />
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" className="btn btn-primary">
                                 Sign up!
                             </button>
                         </div>
