@@ -16,9 +16,9 @@ const Profile = () => {
     useEffect(() => {
         axios
             .get("/api/user/profile")
-            .then(({ user }) => {
-                console.log("user: ", user);
+            .then((user) => {
                 dispatch(loadingHandler(false));
+                message.success("Welcome back!", 1);
             })
             .catch((err) => {
                 message.error("Nothing to do here!", 1);
