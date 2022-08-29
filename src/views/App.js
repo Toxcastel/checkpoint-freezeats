@@ -7,28 +7,24 @@ import Navbar from "../components/Navbar.jsx";
 import Login from "../components/Login.jsx";
 import Signup from "../components/Signup.jsx";
 import Home from "../components/Home.jsx";
+import Car from "../components/Car.jsx";
 
 function App() {
     const dispatch = useDispatch();
-
+    useEffect(() => {
+        dispatch(logPersist());
+    }, [dispatch]);
     
     return (
         <div className="App">
             <Navbar />
             <Routes>
-                {/* rutas públicas */}
                 <Route path="/" element={<Home />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
-                {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
-
-                {/* rutas a proteger */}
                 <Route path="/profile" element={<Profile />} />
-                {/* <Route path="/admin" element={<Admin />} />
-                <Route path="/editor" element={<Editor />} /> */}
-
-                {/* catch all */}
-                {/* <Route path="*" element={<Missing />} /> */}
+                <Route path="/car" element={<Car />} />
+   
             </Routes>
         </div>
     );

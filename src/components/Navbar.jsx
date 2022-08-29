@@ -11,12 +11,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import { useSelector } from "react-redux";
+import LunchDiningSharpIcon from "@mui/icons-material/LunchDiningSharp";
+import { Link } from "react-router-dom";
 
-const pages = ["Productos", "Categorias", "Car"];
-const settings = ["Profile", "Carrito", "Logout"];
 
 const Navbar = () => {
+  const user = useSelector((state) => state.user);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -36,7 +38,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{bgcolor: "#00897b"}}>
+    <AppBar position="static" sx={{ bgcolor: "#00897b" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -86,14 +88,16 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Productos</Typography>
+                  <Typography textAlign="center">Categorias</Typography>
+                  <Typography textAlign="center">Carrito</Typography>
                 </MenuItem>
-              ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <LunchDiningSharpIcon
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -106,52 +110,65 @@ const Navbar = () => {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color:"red",
+              color: "red",
               textDecoration: "none",
             }}
-          >
-          </Typography>
+          ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
+                sx={{ my: 2, color: "white", display: "block" }}>
+               Productos
               </Button>
-            ))}
+              <Button
+                sx={{ my: 2, color: "white", display: "block" }}
+                href="/car">
+               Car
+              </Button>
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+          {user.id ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem>
+                  <Link to="/profile">Profile</Link>
                 </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                <MenuItem>
+                  <Link to="/car">Car</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link to="/logout">Logout</Link>
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : (
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Button sx={{ my: 2, color: "white", display: "block" }}>
+                <Link to="/signup">SignUp</Link>
+              </Button>
+              <Button sx={{ my: 2, color: "white", display: "block" }}>
+                <Link to="/login">Login</Link>
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

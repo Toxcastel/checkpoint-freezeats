@@ -5,14 +5,9 @@ import {
     createReducer,
 } from "@reduxjs/toolkit";
 
-// export const logHandler = createAsyncThunk("LOG_HANDLER", (obj) => {
-//     return axios.post("/api/user/login", obj).then(({ data }) => {
-//         const { user } = data;
-//         if (user._id) return user;
-//     });
-// });
 
 export const logHandler = createAction("LOG_HANLDER");
+
 
 export const logPersist = createAsyncThunk("LOG_PERSIST", () => {
     return axios.get("/api/user/profile").then(({ data }) => {

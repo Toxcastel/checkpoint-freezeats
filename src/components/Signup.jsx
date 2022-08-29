@@ -127,6 +127,7 @@ const Signup = () => {
                 </Box>
             </Container>
         </ThemeProvider>
+
     );
 };
 
