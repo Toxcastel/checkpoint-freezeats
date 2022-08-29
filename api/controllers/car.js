@@ -3,9 +3,9 @@ const { Car, User } = require("../models");
 const carCtrl = {
   
   addProductToCart: (req, res) => {
-    const { products, address, userId } = req.body;
+    const { products, address, userId, quantity } = req.body;
     Car.find({ user: userId }).then((prods) => {
-      if (prods.length == 0) {
+      if (prods.length === 0) {
         User.findById(userId).then((user) => {
           let newProduct = new Car({
             products,

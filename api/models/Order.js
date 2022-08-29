@@ -3,6 +3,10 @@ const { model, Schema } = require("mongoose");
 //schema of Order
 const orderSchema = new Schema({
     info: Array,
+    state:{
+      type: String,
+      default: "Pending"
+    },
     user: String
 },{versionKey:false});
 

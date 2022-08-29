@@ -11,10 +11,7 @@ import Home from "../components/Home.jsx";
 function App() {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(logPersist());
-    }, [dispatch]);
-
+    
     return (
         <div className="App">
             <Navbar/>
