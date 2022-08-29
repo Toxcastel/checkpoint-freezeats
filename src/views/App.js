@@ -1,6 +1,6 @@
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { logPersist } from "../store/reducers/userReducer.js";
 import Profile from "../components/Profile.jsx";
 import Navbar from "../components/Navbar.jsx";
@@ -14,12 +14,21 @@ function App() {
     
     return (
         <div className="App">
-            <Navbar/>
+            <Navbar />
             <Routes>
+                {/* rutas públicas */}
                 <Route path="/" element={<Home />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/profile" element={<Profile />} /> 
+                {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
+
+                {/* rutas a proteger */}
+                <Route path="/profile" element={<Profile />} />
+                {/* <Route path="/admin" element={<Admin />} />
+                <Route path="/editor" element={<Editor />} /> */}
+
+                {/* catch all */}
+                {/* <Route path="*" element={<Missing />} /> */}
             </Routes>
         </div>
     );
