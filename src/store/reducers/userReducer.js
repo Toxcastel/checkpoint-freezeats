@@ -5,9 +5,7 @@ import {
     createReducer,
 } from "@reduxjs/toolkit";
 
-
-export const logHandler = createAction("LOG_HANLDER");
-
+export const logHandler = createAction("LOG_HANDLER");
 
 export const logPersist = createAsyncThunk("LOG_PERSIST", () => {
     return axios.get("/api/user/profile").then(({ data }) => {
@@ -15,9 +13,15 @@ export const logPersist = createAsyncThunk("LOG_PERSIST", () => {
     });
 });
 
-const userReducer = createReducer([], {
-    [logHandler]: (state, action) => action.payload,
-    [logPersist.fulfilled]: (state, action) => action.payload,
-});
+const userReducer = createReducer(
+    {},
+    {
+        [logHandler]: (state, action) => action.payload,
+        [logPersist.fulfilled]: (state, action) => action.payload,
+        [logPersist.rejected]: (state, action) => {
+            state.rejected = true;
+        },
+    }
+);
 
 export default userReducer;

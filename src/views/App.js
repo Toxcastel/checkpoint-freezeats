@@ -8,13 +8,14 @@ import Login from "../components/Login.jsx";
 import Signup from "../components/Signup.jsx";
 import Home from "../components/Home.jsx";
 import Car from "../components/Car.jsx";
+import Dashboard from "./dashboard/Dashboard.jsx";
 
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(logPersist());
-    }, [dispatch]);
-    
+    });
+
     return (
         <div className="App">
             <Navbar />
@@ -24,7 +25,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/car" element={<Car />} />
-   
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </div>
     );

@@ -1,4 +1,4 @@
-const { generateToken } = require("../config/tokens");
+const { generateToken, generateAdmin } = require("../config/tokens");
 const { User, Role } = require("../models");
 const { handleErrors } = require("../utils/auth.utils.js");
 const maxAge = 24 * 60 * 60 * 1000;
@@ -31,19 +31,45 @@ const userCtrl = {
         }
     },
 
-    login: (req, res) => {
-        User.login(req.body)
-            .then((user) => {
-                res.cookie("jwt", generateToken(user._id), {
+    login: async (req, res) => {
+        try {
+            const user = await User.login(req.body);
+            const rol = await Role.findById(user.roles[0]);
+            res.cookie("jwt", generateToken(user._id), {
+                httpOnly: true,
+                maxAge,
+            });
+            if (rol.name === "admin") {
+                res.cookie("role", generateAdmin(rol._id), {
                     httpOnly: true,
                     maxAge,
                 });
-                res.status(200).json({ user });
-            })
-            .catch((err) => {
-                const errors = handleErrors(err);
-                res.status(400).json({ errors });
-            });
+            }
+            res.status(200).json({ user });
+        } catch (err) {
+            const errors = handleErrors(err);
+            res.status(400).json({ errors });
+        }
+        // User.login(req.body)
+        //     .then((user) => {
+        // res.cookie("jwt", generateToken(user._id), {
+        //     httpOnly: true,
+        //     maxAge,
+        //         });
+        //         console.log("user roles en controller: ", user.roles);
+        //         Role.findById(user.roles[0]).then((rol) =>
+        //             console.log("ROL: ", rol)
+        //         );
+        //         res.cookie("role", generateAdmin(user.roles[0]), {
+        //             httpOnly: true,
+        //             maxAge,
+        //         });
+        //         res.status(200).json({ user });
+        //     })
+        //     .catch((err) => {
+        //         const errors = handleErrors(err);
+        //         res.status(400).json({ errors });
+        //     });
     },
 
     logout: (req, res) => {
