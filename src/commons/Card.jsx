@@ -9,22 +9,48 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
-import  Box  from "@mui/material/Box";
+import Box from "@mui/material/Box";
+import { handleProductDetail } from "../store/reducers/productsReducer";
+import ProductDetail from "./ProductDetail";
 
 const comida =
   "https://i.pinimg.com/originals/75/1b/5c/751b5c7db42cb7b4a55706438c779fc4.jpg";
 
 const Cards = () => {
-    const { products } = useSelector((state) => state.products);
+  const { products, productDetail } = useSelector((state) => state.products);
+  const [open, setOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleClick = (product) => {
+    dispatch(handleProductDetail(product));
+    handleClickOpen();
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+
   return (
-    <Box sx={{
-        display: 'grid',
-        columnGap: 1,
-        rowGap: 1,
-        gridTemplateColumns: 'repeat(5, 1fr)',
-      }}>
-        {products.map((product) => (
-          <Card sx={{ maxWidth: 345 }} key={product.id}>
+    <>
+      <Box
+        sx={{
+          display: "grid",
+          columnGap: 1,
+          rowGap: 1,
+          gridTemplateColumns: "repeat(5, 1fr)",
+        }}
+      >
+        {products?.map((product) => (
+          <Card
+            sx={{ maxWidth: 345 }}
+            key={product.id}
+            onClick={() => handleClick(product)}
+          >
             <CardMedia
               component="img"
               height="194"
@@ -36,7 +62,7 @@ const Cards = () => {
                 {product.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-               {product.description}
+                {product.description}
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -50,7 +76,16 @@ const Cards = () => {
           </Card>
         ))}
       </Box>
-  )
-}
+      {open && (
+        <ProductDetail
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          productDetail={productDetail}
+          open={open}
+        />
+      )}
+    </>
+  );
+};
 
-export default Cards
+export default Cards;

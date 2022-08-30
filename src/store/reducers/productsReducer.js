@@ -5,15 +5,19 @@ const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
+    productDetail:{}
   },
   reducers: {
     getProducts: (state, action) => {
       state.products = action.payload
+    },
+    getProductDetail:(state, action)=>{
+      state.productDetail = action.payload
     }
   }
 });
 
-export const { getProducts } = productsSlice.actions
+export const { getProducts, getProductDetail} = productsSlice.actions
 
 export const handleProducts = () => (dispatch) => {
      axios
@@ -24,6 +28,10 @@ export const handleProducts = () => (dispatch) => {
       .catch((err) => console.log(err));
   }; 
 
+export const handleProductDetail = (product) =>(dispatch) =>{
+ console.log(">>>>>", product,dispatch)
+ dispatch(getProductDetail(product))
+}
 
 
 export default productsSlice.reducer;
