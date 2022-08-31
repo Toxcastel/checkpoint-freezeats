@@ -1,10 +1,7 @@
 const { User, Role } = require("../models");
-const { handleErrors } = require("../utils/auth.utils.js");
 
 const adminCtrl = {
     getAdmin: (req, res) => {
-        console.log("ENTRE A GETADMIN");
-        console.log("QUE SOY: ", req.authRole);
         res.status(200).send(req.authRole);
     },
 
@@ -31,7 +28,6 @@ const adminCtrl = {
 
     getRoleById: (req, res) => {
         const { role } = req.params;
-        console.log("ID ROLE: ", req.params);
         Role.findById(role)
             .then((role) => res.status(200).json(role))
             .catch((err) => res.status(401).json(err));
@@ -41,6 +37,33 @@ const adminCtrl = {
         Role.find({})
             .then((role) => res.status(200).json(role))
             .catch((err) => res.status(401).json(err));
+    },
+
+    changeRole: async (req, res) => {
+        const { id } = req.params;
+        let { roleName } = req.body;
+
+        if (roleName === "user") {
+            roleName = "admin";
+        } else {
+            roleName = "user";
+        }
+
+        const role = await Role.find({ name: roleName });
+        const findAndUpdate = await User.findOneAndUpdate(
+            { _id: id },
+            { roles: role }
+        );
+        // este console es la versión que encontró
+        const user = await User.findOne({ _id: id });
+        console.log("user actualizado: ", user);
+        res.status(204).json(findAndUpdate);
+    },
+
+    deleteUser: async (req, res) => {
+        const { id } = req.params;
+        const deletedUser = await User.deleteOne({ _id: id });
+        res.status(200).json(deletedUser);
     },
 };
 

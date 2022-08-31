@@ -17,7 +17,6 @@ function validateAdmin(req, res, next) {
     if (!token) return res.status(401).send("Token is not valid");
 
     const { user } = validateTokenAdmin(token);
-    console.log("USER ROLES EN VALIDATEADMIN: ", user);
     if (!user) return res.status(401).send("User not found");
 
     req.authRole = user;

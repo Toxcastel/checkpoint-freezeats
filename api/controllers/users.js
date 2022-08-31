@@ -50,26 +50,6 @@ const userCtrl = {
             const errors = handleErrors(err);
             res.status(400).json({ errors });
         }
-        // User.login(req.body)
-        //     .then((user) => {
-        // res.cookie("jwt", generateToken(user._id), {
-        //     httpOnly: true,
-        //     maxAge,
-        //         });
-        //         console.log("user roles en controller: ", user.roles);
-        //         Role.findById(user.roles[0]).then((rol) =>
-        //             console.log("ROL: ", rol)
-        //         );
-        //         res.cookie("role", generateAdmin(user.roles[0]), {
-        //             httpOnly: true,
-        //             maxAge,
-        //         });
-        //         res.status(200).json({ user });
-        //     })
-        //     .catch((err) => {
-        //         const errors = handleErrors(err);
-        //         res.status(400).json({ errors });
-        //     });
     },
 
     logout: (req, res) => {

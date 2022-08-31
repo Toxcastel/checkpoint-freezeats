@@ -1,39 +1,54 @@
 import * as React from "react";
-import axios from "axios";
-import { useEffect } from "react";
-import Link from "@mui/material/Link";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Title from "./Title";
-import { getAllUsers } from "../../store/reducers/adminUsersReducer";
+import {
+    adminDeleteUser,
+    changeUserRole,
+    getAllUsers,
+} from "../../store/reducers/adminUsersReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { loadingHandler } from "../../store/reducers/loadingReducer";
 import Loading from "../../commons/Loading";
 import {
-    Box,
     Container,
     FormControlLabel,
-    FormGroup,
     Grid,
+    IconButton,
     Switch,
     Typography,
 } from "@mui/material";
-
-// Generate Order Data
-function preventDefault(event) {
-    event.preventDefault();
-}
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddUser from "./AddUser";
 
 const Users = () => {
     const users = useSelector((state) => state.adminUsers);
     const loading = useSelector((state) => state.loading);
+    const [changeIcon, setChangeIcon] = useState(true);
+    const [deleteAction, setDeleteAction] = useState(true);
     const dispatch = useDispatch();
 
-    const handleChange = (event) => {
-        console.log(event.target);
+    const handleChange = (obj) => {
+        dispatch(changeUserRole(obj)).then(() => {
+            if (changeIcon) {
+                setChangeIcon(false);
+            } else {
+                setChangeIcon(true);
+            }
+        });
+    };
+
+    const deleteUser = (userId) => {
+        dispatch(adminDeleteUser(userId)).then(() => {
+            if (deleteAction) {
+                setDeleteAction(false);
+            } else {
+                setDeleteAction(true);
+            }
+        });
     };
 
     const getRole = (role) => {
@@ -43,10 +58,10 @@ const Users = () => {
 
     useEffect(() => {
         dispatch(getAllUsers()).then(() => console.log("usuarios traidos!"));
-    }, []);
+    }, [changeIcon, deleteAction]);
 
     useEffect(() => {
-        if (users.length > 0) dispatch(loadingHandler(false));
+        if (users.length) dispatch(loadingHandler(false));
     }, [users]);
 
     if (loading) {
@@ -59,14 +74,7 @@ const Users = () => {
                         <Typography>Edit Users</Typography>
                     </Grid>
                     <Grid item xs={12} md={4} lg={3}>
-                        <Link
-                            color="primary"
-                            href="#"
-                            onClick={preventDefault}
-                            sx={{ mt: 3 }}
-                        >
-                            <Typography>Add new user</Typography>
-                        </Link>
+                        <AddUser />
                     </Grid>
                 </Container>
                 <Table size="small">
@@ -83,7 +91,7 @@ const Users = () => {
                         {users.map((user) => {
                             const auth = getRole(user.roles);
                             return (
-                                <TableRow key={user._id}>
+                                <TableRow key={user.id}>
                                     <TableCell>{user.name}</TableCell>
                                     <TableCell>{user.lastname}</TableCell>
                                     <TableCell>{user.email}</TableCell>
@@ -92,15 +100,27 @@ const Users = () => {
                                             control={
                                                 <Switch
                                                     checked={auth}
-                                                    onChange={handleChange}
+                                                    onChange={() =>
+                                                        handleChange({
+                                                            userId: user.id,
+                                                            roleName:
+                                                                user.roles,
+                                                        })
+                                                    }
                                                     aria-label="login switch"
                                                 />
                                             }
-                                            // hacer que en el estado se guarde true o false
                                             label={auth ? "Admin" : "User"}
                                         />
                                     </TableCell>
-                                    <TableCell align="right">{`Otra cosa`}</TableCell>
+                                    {/* Ahora toca eliminar al usuario */}
+                                    <TableCell align="right">
+                                        <IconButton
+                                            onClick={() => deleteUser(user.id)}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </TableCell>
                                 </TableRow>
                             );
                         })}
