@@ -4,4 +4,10 @@ const carCtrl = require("./car");
 const orderCtrl = require("./order");
 const adminCtrl = require("./admin");
 
-module.exports = { prodCtrl, userCtrl, carCtrl, orderCtrl, adminCtrl };
+module.exports = {
+    prodCtrl,
+    userCtrl,
+    carCtrl,
+    orderCtrl,
+    adminCtrl,
+};

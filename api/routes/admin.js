@@ -9,5 +9,8 @@ console.log("ENTRE A ADMIN");
 // router.post("/logout", adminCtrl.logout);
 // router.put("/profile", validateAuth, adminCtrl.updateUser);
 router.get("/", adminCtrl.getAdmin);
+router.get("/users", adminCtrl.getAllUsers);
+router.get("/roles/:role", adminCtrl.getRoleById);
+router.get("/roles", adminCtrl.getRoles);
 
 module.exports = router;
