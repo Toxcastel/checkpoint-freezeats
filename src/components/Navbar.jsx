@@ -17,10 +17,11 @@ import { Link } from "react-router-dom";
 import SearchBar from "../commons/SearchBar";
 import CartIcon from "../commons/CartIcon";
 import { backHome } from "../store/reducers/productsReducer";
+import { toggleCart } from "../store/reducers/cartShowReducer";
 
 const Navbar = () => {
   const user = useSelector((state) => state.user);
-  const dispatch= useDispatch()
+  const dispatch = useDispatch();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -40,28 +41,34 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  const home =()=>{
-   dispatch(backHome());
-  }
+  const home = () => {
+    dispatch(backHome());
+  };
+
   return (
     <AppBar position="static" sx={{ bgcolor: "#00897b" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "white",
-              textDecoration: "none",
-            }}
-          >
-            <Link to="/" onClick={home}>Freezeats</Link>
-          </Typography>
+          <Link to="/">
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "white",
+                textDecoration: "none",
+              }}
+            >
+              <Link to="/" onClick={home}>
+                Freezeats
+              </Link>
+            </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -122,9 +129,6 @@ const Navbar = () => {
             <Button>
               <Link to="/products"> Favorites</Link>
             </Button>
-            <Button>
-              <Link to="/car"> Car</Link>
-            </Button>
           </Box>
           <SearchBar />
           {user.id ? (
@@ -157,7 +161,10 @@ const Navbar = () => {
                   <Link to="/">Logout</Link>
                 </MenuItem>
               </Menu>
-              <CartIcon />
+              <Button onClick={() => dispatch(toggleCart(true))}>
+
+              <CartIcon  />
+              </Button>
             </Box>
           ) : (
             <Box
@@ -171,7 +178,9 @@ const Navbar = () => {
                 <Link to="/signup">SignUp</Link>
               </Button>
               <Button>
-                <Link to="/login" style={{textDecoration:'none'}}>Login</Link>
+                <Link to="/login" style={{ textDecoration: "none" }}>
+                  Login
+                </Link>
               </Button>
             </Box>
           )}

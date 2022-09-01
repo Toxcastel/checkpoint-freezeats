@@ -3,3 +3,7 @@ export const textLength = (str) => {
   if(str.length > 25) return shortPhrase + "...";
   return shortPhrase
 };
+
+
+
+

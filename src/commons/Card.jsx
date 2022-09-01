@@ -15,6 +15,7 @@ import { handleProductDetail } from "../store/reducers/productsReducer";
 import ProductDetail from "./ProductDetail";
 import { message } from "antd";
 import { textLength } from "../utils";
+import { fetchCart } from "../store/reducers/cartReducer";
 
 const Cards = () => {
   const [products, search, productDetail] = useSelector((state) => [
@@ -68,13 +69,26 @@ const Cards = () => {
               })
               .then(() => message.success("Agregado a Favoritos"));
           };
+          const addProductToCart = (e) => {
+            e.preventDefault();
+            axios
+              .post("/api/car", {
+                products: product,
+                address: "Calle siempre-viva",
+              })
+              .then(() => {
+                dispatch(fetchCart());
+              })
+
+              .catch((err) => console.log(err));
+          };
           return (
             <Card
               sx={{ width: 200, mx: 2, my: 3 }}
               key={product.id}
-              onClick={() => handleClick(product)}
-            >
+              >
               <CardMedia
+              onClick={() => handleClick(product)}
                 component="img"
                 height="194"
                 image={product.imgUrl}
@@ -99,7 +113,7 @@ const Cards = () => {
                 ) : (
                   ""
                 )}
-                <IconButton aria-label="car">
+                <IconButton aria-label="car" onClick={addProductToCart}>
                   <AddShoppingCartSharpIcon />
                 </IconButton>
               </CardActions>
