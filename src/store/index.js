@@ -6,6 +6,7 @@ import loadingReducer from "./reducers/loadingReducer";
 import category from "./reducers/categoryReducer";
 import allProducts from "./reducers/allProductsReducer";
 
+
 const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   reducer: {

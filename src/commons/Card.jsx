@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -12,12 +13,20 @@ import Box from "@mui/material/Box";
 import Pagination from "./Pagination";
 import { handleProductDetail } from "../store/reducers/productsReducer";
 import ProductDetail from "./ProductDetail";
-
-const comida =
-  "https://i.pinimg.com/originals/75/1b/5c/751b5c7db42cb7b4a55706438c779fc4.jpg";
+import { message } from "antd";
+import { textLength } from "../utils";
 
 const Cards = () => {
-  const { products, productDetail } = useSelector((state) => state.products);
+  const [products, search, productDetail] = useSelector((state) => [
+    state.products.products,
+    state.products.search,
+    state.products.productDetail,
+  ]);
+  const user = useSelector((state) => state.user);
+
+  let componente;
+  search.length > 0 ? (componente = search) : (componente = products);
+
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -35,59 +44,79 @@ const Cards = () => {
     setOpen(false);
   };
 
-
   return (
     <>
       <Box
         sx={{
-          display: "grid",
-          columnGap: 1,
-          rowGap: 1,
-          gridTemplateColumns: "repeat(5, 1fr)",
+          width: "auto",
+          height: "auto",
+          backgroundColor: "white",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          py: { xs: 2 },
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        {products?.map((product) => (
-          <Card
-            sx={{ maxWidth: 345 }}
-            key={product.id}
-            onClick={() => handleClick(product)}
-          >
-            <CardMedia
-              component="img"
-              height="194"
-              image={product.imgUrl}
-              alt="Nombre del plato"
-            />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {product.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {product.description}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="car">
-                <AddShoppingCartSharpIcon />
-              </IconButton>
-            </CardActions>
-          </Card>
-        ))}
-</Box>
-<Pagination />
+        {componente.map((product) => {
+          const addFavorite = (e) => {
+            e.preventDefault();
+            axios
+              .post(`/api/fav`, {
+                id: product.id,
+              })
+              .then(() => message.success("Agregado a Favoritos"));
+          };
+          return (
+            <Card
+              sx={{ width: 200, mx: 2, my: 3 }}
+              key={product.id}
+              onClick={() => handleClick(product)}
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image={product.imgUrl}
+                alt="Nombre del plato"
+              />
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {product.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {textLength(product.description)}
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                {user.id ? (
+                  <IconButton
+                    aria-label="add to favorites"
+                    onClick={addFavorite}
+                  >
+                    <FavoriteIcon />
+                  </IconButton>
+                ) : (
+                  ""
+                )}
+                <IconButton aria-label="car">
+                  <AddShoppingCartSharpIcon />
+                </IconButton>
+              </CardActions>
+            </Card>
+          );
+        })}
+      </Box>
+      <Pagination />
 
-{open && (
-  <ProductDetail
-  handleClickOpen={handleClickOpen}
-  handleClose={handleClose}
-  productDetail={productDetail}
-  open={open}
-  />
-  )}
-
+      {open && (
+        <ProductDetail
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          productDetail={productDetail}
+          open={open}
+        />
+      )}
     </>
   );
 };

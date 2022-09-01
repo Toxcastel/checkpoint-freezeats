@@ -63,6 +63,7 @@ const userCtrl = {
             .then((user) => res.status(200).json(user))
             .catch((err) => res.status(401).json(err));
     },
+
 };
 
 module.exports = userCtrl;

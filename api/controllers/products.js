@@ -19,11 +19,16 @@ const prodCtrl = {
     res.send(products);
   },
   getProductByName: async (req, res) => {
-    const { name } = req.params;
-    const product = await Product.find({
-      name: { $regex: name.toLowerCase() },
-    });
-    res.send(product);
+    try {
+      const { name } = req.params;
+      const product = await Product.find({
+        name: { $regex: name.toLowerCase() },
+      });
+      res.send(product);
+    } catch {
+      res.status(404);
+      res.send({ error: "Product doesn't exist!" });
+    }
   },
   getOneProduct: async (req, res) => {
     const id = req.params.id;

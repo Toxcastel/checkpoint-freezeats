@@ -12,7 +12,8 @@ import Category  from "../components/Category";
 
 
 function App() {
-    const dispatch = useDispatch();
+
+const dispatch = useDispatch();
     useEffect(() => {
         dispatch(logPersist());
     }, [dispatch]);
