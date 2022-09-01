@@ -4,6 +4,7 @@ import products from "./reducers/productsReducer";
 import userReducer from "./reducers/userReducer";
 import loadingReducer from "./reducers/loadingReducer";
 
+
 const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
     reducer: {

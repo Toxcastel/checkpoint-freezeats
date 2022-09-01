@@ -11,13 +11,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import LunchDiningSharpIcon from "@mui/icons-material/LunchDiningSharp";
 import { Link } from "react-router-dom";
-
+import SearchBar from "../commons/SearchBar";
+import CartIcon from "../commons/CartIcon";
+import { backHome } from "../store/reducers/productsReducer";
 
 const Navbar = () => {
   const user = useSelector((state) => state.user);
+  const dispatch= useDispatch()
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -37,6 +40,9 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const home =()=>{
+   dispatch(backHome());
+  }
   return (
     <AppBar position="static" sx={{ bgcolor: "#00897b" }}>
       <Container maxWidth="xl">
@@ -44,8 +50,6 @@ const Navbar = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -56,7 +60,7 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            Freezeats
+            <Link to="/" onClick={home}>Freezeats</Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -88,11 +92,11 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Productos</Typography>
-                  <Typography textAlign="center">Categorias</Typography>
-                  <Typography textAlign="center">Carrito</Typography>
-                </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Productos</Typography>
+                <Typography textAlign="center">Categorias</Typography>
+                <Typography textAlign="center">Carrito</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <LunchDiningSharpIcon
@@ -115,18 +119,16 @@ const Navbar = () => {
             }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Button
-                sx={{ my: 2, color: "white", display: "block" }}>
-               Productos
-              </Button>
-              <Button
-                sx={{ my: 2, color: "white", display: "block" }}
-                href="/car">
-               Car
-              </Button>
+            <Button>
+              <Link to="/products"> Favorites</Link>
+            </Button>
+            <Button>
+              <Link to="/car"> Car</Link>
+            </Button>
           </Box>
+          <SearchBar />
           {user.id ? (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="" />
@@ -152,20 +154,24 @@ const Navbar = () => {
                   <Link to="/profile">Profile</Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link to="/car">Car</Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link to="/logout">Logout</Link>
+                  <Link to="/">Logout</Link>
                 </MenuItem>
               </Menu>
+              <CartIcon />
             </Box>
           ) : (
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+                justifyContent: "flex-end",
+              }}
+            >
+              <Button>
                 <Link to="/signup">SignUp</Link>
               </Button>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                <Link to="/login">Login</Link>
+              <Button>
+                <Link to="/login" style={{textDecoration:'none'}}>Login</Link>
               </Button>
             </Box>
           )}

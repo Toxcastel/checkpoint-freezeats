@@ -33,7 +33,7 @@ const Signup = () => {
                 name: name.value,
                 lastname: lastname.value,
             })
-            .then((res) => {
+            .then(() => {
                 message.success("Signed in succesfully!", 2);
                 navigate("/login");
             })

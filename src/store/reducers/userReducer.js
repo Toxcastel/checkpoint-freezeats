@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 import {
     createAction,
     createAsyncThunk,
@@ -14,6 +14,7 @@ export const logPersist = createAsyncThunk("LOG_PERSIST", () => {
         if (data.id) return data;
     });
 });
+
 
 const userReducer = createReducer([], {
     [logHandler]: (state, action) => action.payload,

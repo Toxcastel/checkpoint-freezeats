@@ -10,7 +10,8 @@ import Home from "../components/Home.jsx";
 import Car from "../components/Car.jsx";
 
 function App() {
-    const dispatch = useDispatch();
+
+const dispatch = useDispatch();
     useEffect(() => {
         dispatch(logPersist());
     }, [dispatch]);
