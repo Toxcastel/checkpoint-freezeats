@@ -24,9 +24,11 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddUser from "./AddUser";
 import Orders from "./Orders";
+import { adminGetAllProducts } from "../../store/reducers/adminProductsReducer";
+import EditIcon from '@mui/icons-material/Edit';
 
-const Users = () => {
-    const users = useSelector((state) => state.adminUsers);
+const Products = () => {
+    const products = useSelector((state) => state.adminProducts);
     const loading = useSelector((state) => state.loading);
     const [changeIcon, setChangeIcon] = useState(true);
     const [deleteAction, setDeleteAction] = useState(true);
@@ -58,12 +60,12 @@ const Users = () => {
     };
 
     useEffect(() => {
-        dispatch(getAllUsers()).then(() => console.log("usuarios traidos!"));
-    }, [changeIcon, deleteAction]);
+        dispatch(adminGetAllProducts()).then(() => console.log("products aquí!"));
+    }, []);
 
     useEffect(() => {
-        if (users.length) dispatch(loadingHandler(false));
-    }, [users]);
+        if (products.length) dispatch(loadingHandler(false));
+    }, []);
 
     if (loading) {
         return <Loading />;
@@ -72,7 +74,7 @@ const Users = () => {
             <React.Fragment>
                 <Container maxWidth="lg" sx={{ mt: 4, mb: 4, display: "flex" }}>
                     <Grid item xs={12} md={8} lg={9}>
-                        <Typography>Users manager</Typography>
+                        <Typography>Products manager</Typography>
                     </Grid>
                     <Grid item xs={12} md={4} lg={3}>
                         <AddUser />
@@ -82,48 +84,36 @@ const Users = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Last Name</TableCell>
-                            <TableCell>E-mail</TableCell>
-                            <TableCell>Orders</TableCell>
-                            <TableCell>Role</TableCell>
+                            <TableCell>Description</TableCell>
+                            <TableCell>Category</TableCell>
+                            <TableCell>Price</TableCell>
+                            <TableCell>Stock</TableCell>
+                            <TableCell>Rating</TableCell>
+                            <TableCell>Edit</TableCell>
                             <TableCell align="right">Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map((user) => {
-                            const auth = getRole(user.roles);
+                        {products.map((product) => {
+                            
                             return (
-                                <TableRow key={user.id}>
-                                    <TableCell>{user.name}</TableCell>
-                                    <TableCell>{user.lastname}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
+                                <TableRow key={product.id}>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell>{product.description}</TableCell>
+                                    <TableCell>{product.category}</TableCell>
+                                    <TableCell>{product.price}</TableCell>
+                                    <TableCell>{product.stock}</TableCell>
+                                    <TableCell>{product.rating}</TableCell>
+                                   
                                     <TableCell>
-                                        <Orders ordersId={user.id} />
-                                    </TableCell>
-                                    <TableCell>
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={auth}
-                                                    onChange={() =>
-                                                        handleChange({
-                                                            userId: user.id,
-                                                            roleName:
-                                                                user.roles,
-                                                        })
-                                                    }
-                                                    aria-label="login switch"
-                                                />
-                                            }
-                                            label={auth ? "Admin" : "User"}
-                                        />
+                                        <EditIcon />
                                     </TableCell>
                                     <TableCell align="right">
-                                        <IconButton
-                                            onClick={() => deleteUser(user.id)}
-                                        >
                                             <DeleteIcon />
-                                        </IconButton>
+                                        {/* <IconButton
+                                            onClick={() => deleteUser(product.id)}
+                                        >
+                                        </IconButton> */}
                                     </TableCell>
                                 </TableRow>
                             );
@@ -135,4 +125,4 @@ const Users = () => {
     }
 };
 
-export default Users;
+export default Products;

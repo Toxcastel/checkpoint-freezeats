@@ -21,6 +21,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import Products from "./Products";
 
 const drawerWidth = 240;
 
@@ -149,16 +150,15 @@ function DashboardContent() {
 
                             {/* Productos */}
                             {views === "products" || views === "all" ? (
-                                <Grid item xs={12} md={4} lg={3}>
+                                <Grid item xs={12}>
                                     <Paper
                                         sx={{
                                             p: 2,
                                             display: "flex",
                                             flexDirection: "column",
-                                            height: 240,
                                         }}
                                     >
-                                        <Deposits />
+                                        <Products />
                                     </Paper>
                                 </Grid>
                             ) : (

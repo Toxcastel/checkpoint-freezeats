@@ -3,6 +3,7 @@ const Product = require("../models/Products");
 const prodCtrl = {
 
   getProducts: async (req, res) => {
+    console.log("PIDIERON PRODUCTS? BACK: ", req.body)
     const products = await Product.find();
     res.send(products);
   },

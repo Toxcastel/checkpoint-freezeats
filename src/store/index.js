@@ -5,6 +5,7 @@ import userReducer from "./reducers/userReducer";
 import loadingReducer from "./reducers/loadingReducer";
 import adminUsersReducer from "./reducers/adminUsersReducer";
 import setViewsReducer from "./reducers/setViewsReducer";
+import adminProductsReducer from "./reducers/adminProductsReducer";
 
 const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
@@ -13,6 +14,7 @@ const store = configureStore({
         products,
         loading: loadingReducer,
         adminUsers: adminUsersReducer,
+        adminProducts: adminProductsReducer,
         views: setViewsReducer,
     },
 });
