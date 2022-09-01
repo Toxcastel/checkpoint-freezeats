@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,26 +8,30 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
-import  Box  from "@mui/material/Box";
-
-const comida =
-  "https://i.pinimg.com/originals/75/1b/5c/751b5c7db42cb7b4a55706438c779fc4.jpg";
+import Box from "@mui/material/Box";
+import Pagination from "./Pagination";
 
 const Cards = () => {
-    const { products } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.products);
+  
+
+
   return (
-    <Box sx={{
-        display: 'grid',
-        columnGap: 1,
-        rowGap: 1,
-        gridTemplateColumns: 'repeat(5, 1fr)',
-      }}>
+    <>
+      <Box
+        sx={{
+          display: "grid",
+          columnGap: 1,
+          rowGap: 1,
+          gridTemplateColumns: "repeat(5, 1fr)",
+        }}
+      >
         {products.map((product) => (
           <Card sx={{ maxWidth: 345 }} key={product.id}>
             <CardMedia
               component="img"
               height="194"
-              image={comida}
+              image={product.imgUrl}
               alt="Nombre del plato"
             />
             <CardContent>
@@ -36,7 +39,7 @@ const Cards = () => {
                 {product.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-               {product.description}
+                {product.description}
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -50,7 +53,9 @@ const Cards = () => {
           </Card>
         ))}
       </Box>
-  )
-}
+      <Pagination />
+    </>
+  );
+};
 
-export default Cards
+export default Cards;

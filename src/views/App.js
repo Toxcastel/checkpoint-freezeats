@@ -8,6 +8,8 @@ import Login from "../components/Login.jsx";
 import Signup from "../components/Signup.jsx";
 import Home from "../components/Home.jsx";
 import Car from "../components/Car.jsx";
+import Category  from "../components/Category";
+
 
 function App() {
     const dispatch = useDispatch();
@@ -24,6 +26,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/car" element={<Car />} />
+                <Route path="/products/category/:category" element={<Category />} />
    
             </Routes>
         </div>

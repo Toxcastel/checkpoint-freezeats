@@ -9,10 +9,11 @@ const productsSchema = new Schema(
     price: Number,
     category: String,
     rating: Number,
-    quantity:{
+    imgUrl: String,
+    quantity: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   { versionKey: false }
 );

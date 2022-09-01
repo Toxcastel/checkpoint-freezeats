@@ -15,14 +15,15 @@ const productsSlice = createSlice({
 
 export const { getProducts } = productsSlice.actions
 
-export const handleProducts = () => (dispatch) => {
+export const handleProducts = (paginationNumber) => (dispatch) => {
      axios
-      .get("/api/products")
+      .get(`/api/products?pages=${paginationNumber}`)
       .then((allProducts) => {
         dispatch(getProducts(allProducts.data))
       })
       .catch((err) => console.log(err));
   }; 
+
 
 
 
