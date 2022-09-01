@@ -29,7 +29,15 @@ const orderCtrl = {
   },
 
   findAllOrder: (req, res) => {
+    
+    Order.find({ user: req.user }).then((order) => {
+      res.status(200).send(order);
+    });
+  },
+
+  findUserOrders: (req, res) => {
     const { id } = req.headers;
+    console.log("soy el req user en order: ", id)
     Order.find({ user: id }).then((order) => {
       res.status(200).send(order);
     });

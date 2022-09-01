@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -12,7 +12,6 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Chart from "./Chart";
-import Deposits from "./Deposits.jsx";
 import Users from "./Users";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -22,6 +21,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Products from "./Products";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { message } from "antd";
+import Loading from "../../commons/Loading";
+import { loadingHandler } from "../../store/reducers/loadingReducer";
 
 const drawerWidth = 240;
 
@@ -55,138 +59,167 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme({});
 
 function DashboardContent() {
+    const admin = useSelector((state) => state.admin);
+    const loading = useSelector((state) => state.loading);
     const [open, setOpen] = React.useState(true);
     const [views, setViews] = React.useState("all");
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
-    return (
-        <ThemeProvider theme={mdTheme}>
-            <Box sx={{ display: "flex" }}>
-                <CssBaseline />
-                <Drawer variant="permanent" open={open}>
-                    <Toolbar
+    useEffect(() => {
+        
+        if (admin.rejected) {
+            message.error("Nothing to do here", 1);
+            navigate("/");
+            dispatch(loadingHandler(true));
+        } else {
+            dispatch(loadingHandler(false));
+        }
+    }, [admin]);
+
+    if (loading) {
+        return <Loading />;
+    } else {
+        return (
+            <ThemeProvider theme={mdTheme}>
+                <Box sx={{ display: "flex" }}>
+                    <CssBaseline />
+                    <Drawer variant="permanent" open={open}>
+                        <Toolbar
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                backgroundColor: "#e0f2f1",
+                                justifyContent: "flex-end",
+                                px: [1],
+                            }}
+                        >
+                            <IconButton onClick={toggleDrawer}>
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </Toolbar>
+                        <Divider />
+                        <List
+                            sx={{ backgroundColor: "#e0f2f1" }}
+                            component="nav"
+                        >
+                            <React.Fragment>
+                                <ListItemButton onClick={() => setViews("all")}>
+                                    <ListItemIcon>
+                                        <DashboardIcon
+                                            sx={{ color: "#00897b" }}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Dashboard" />
+                                </ListItemButton>
+                                <ListItemButton
+                                    onClick={() => setViews("orders")}
+                                >
+                                    <ListItemIcon>
+                                        <ShoppingCartIcon
+                                            sx={{ color: "#00897b" }}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Orders" />
+                                </ListItemButton>
+                                <ListItemButton
+                                    onClick={() => setViews("products")}
+                                >
+                                    <ListItemIcon>
+                                        <BarChartIcon
+                                            sx={{ color: "#00897b" }}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Products" />
+                                </ListItemButton>
+                                <ListItemButton
+                                    onClick={() => setViews("users")}
+                                >
+                                    <ListItemIcon>
+                                        <PeopleIcon sx={{ color: "#00897b" }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Users" />
+                                </ListItemButton>
+                            </React.Fragment>
+                            <Divider sx={{ my: 1 }} />
+                        </List>
+                    </Drawer>
+                    <Box
+                        component="main"
                         sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            backgroundColor: "#e0f2f1",
-                            justifyContent: "flex-end",
-                            px: [1],
+                            backgroundColor: (theme) =>
+                                theme.palette.mode === "light"
+                                    ? theme.palette.grey[100]
+                                    : theme.palette.grey[900],
+                            flexGrow: 1,
+                            height: "100vh",
+                            overflow: "auto",
                         }}
                     >
-                        <IconButton onClick={toggleDrawer}>
-                            <ChevronLeftIcon />
-                        </IconButton>
-                    </Toolbar>
-                    <Divider />
-                    <List sx={{ backgroundColor: "#e0f2f1" }} component="nav">
-                        <React.Fragment>
-                            <ListItemButton onClick={() => setViews("all")}>
-                                <ListItemIcon>
-                                    <DashboardIcon sx={{ color: "#00897b" }} />
-                                </ListItemIcon>
-                                <ListItemText primary="Dashboard" />
-                            </ListItemButton>
-                            <ListItemButton onClick={() => setViews("orders")}>
-                                <ListItemIcon>
-                                    <ShoppingCartIcon
-                                        sx={{ color: "#00897b" }}
-                                    />
-                                </ListItemIcon>
-                                <ListItemText primary="Orders" />
-                            </ListItemButton>
-                            <ListItemButton
-                                onClick={() => setViews("products")}
-                            >
-                                <ListItemIcon>
-                                    <BarChartIcon sx={{ color: "#00897b" }} />
-                                </ListItemIcon>
-                                <ListItemText primary="Products" />
-                            </ListItemButton>
-                            <ListItemButton onClick={() => setViews("users")}>
-                                <ListItemIcon>
-                                    <PeopleIcon sx={{ color: "#00897b" }} />
-                                </ListItemIcon>
-                                <ListItemText primary="Users" />
-                            </ListItemButton>
-                        </React.Fragment>
-                        <Divider sx={{ my: 1 }} />
-                    </List>
-                </Drawer>
-                <Box
-                    component="main"
-                    sx={{
-                        backgroundColor: (theme) =>
-                            theme.palette.mode === "light"
-                                ? theme.palette.grey[100]
-                                : theme.palette.grey[900],
-                        flexGrow: 1,
-                        height: "100vh",
-                        overflow: "auto",
-                    }}
-                >
-                    <Toolbar />
-                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Grid container spacing={3}>
-                            {/* Ordenes */}
-                            {views === "orders" || views === "all" ? (
-                                <Grid item xs={12} md={8} lg={9}>
-                                    <Paper
-                                        sx={{
-                                            p: 2,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            height: 240,
-                                        }}
-                                    >
-                                        <Chart />
-                                    </Paper>
-                                </Grid>
-                            ) : (
-                                <></>
-                            )}
+                        <Toolbar />
+                        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                            <Grid container spacing={3}>
+                                {/* Ordenes */}
+                                {views === "orders" || views === "all" ? (
+                                    <Grid item xs={12} md={8} lg={9}>
+                                        <Paper
+                                            sx={{
+                                                p: 2,
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                height: 240,
+                                            }}
+                                        >
+                                            <Chart />
+                                        </Paper>
+                                    </Grid>
+                                ) : (
+                                    <></>
+                                )}
 
-                            {/* Productos */}
-                            {views === "products" || views === "all" ? (
-                                <Grid item xs={12}>
-                                    <Paper
-                                        sx={{
-                                            p: 2,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                        }}
-                                    >
-                                        <Products />
-                                    </Paper>
-                                </Grid>
-                            ) : (
-                                <></>
-                            )}
+                                {/* Productos */}
+                                {views === "products" || views === "all" ? (
+                                    <Grid item xs={12}>
+                                        <Paper
+                                            sx={{
+                                                p: 2,
+                                                display: "flex",
+                                                flexDirection: "column",
+                                            }}
+                                        >
+                                            <Products />
+                                        </Paper>
+                                    </Grid>
+                                ) : (
+                                    <></>
+                                )}
 
-                            {/* Usuarios*/}
-                            {views === "users" || views === "all" ? (
-                                <Grid item xs={12}>
-                                    <Paper
-                                        sx={{
-                                            p: 2,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                        }}
-                                    >
-                                        <Users />
-                                    </Paper>
-                                </Grid>
-                            ) : (
-                                <></>
-                            )}
-                        </Grid>
-                    </Container>
+                                {/* Usuarios*/}
+                                {views === "users" || views === "all" ? (
+                                    <Grid item xs={12}>
+                                        <Paper
+                                            sx={{
+                                                p: 2,
+                                                display: "flex",
+                                                flexDirection: "column",
+                                            }}
+                                        >
+                                            <Users />
+                                        </Paper>
+                                    </Grid>
+                                ) : (
+                                    <></>
+                                )}
+                            </Grid>
+                        </Container>
+                    </Box>
                 </Box>
-            </Box>
-        </ThemeProvider>
-    );
+            </ThemeProvider>
+        );
+    }
 }
 
 export default function Dashboard() {

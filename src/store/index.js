@@ -11,6 +11,7 @@ import order from "./reducers/orderReducer";
 import adminUsersReducer from "./reducers/adminUsersReducer";
 import setViewsReducer from "./reducers/setViewsReducer";
 import adminProductsReducer from "./reducers/adminProductsReducer";
+import adminLogReducer from "./reducers/adminLog";
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
@@ -26,6 +27,7 @@ const store = configureStore({
     adminUsers: adminUsersReducer,
     adminProducts: adminProductsReducer,
     views: setViewsReducer,
+    admin: adminLogReducer
   },
 });
 

@@ -38,7 +38,7 @@ const Products = () => {
       </div>
       <div>
         <Link to="/">
-          <button>Home</button>
+          {/* <button>Home</button> */}
         </Link>
       </div>
     </div>

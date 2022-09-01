@@ -21,7 +21,6 @@ export default function Orders({ ordersId }) {
         products: [],
         totalPrice: undefined,
     };
-    console.log("ordersId: ", ordersId);
     // estados
     const [open, setOpen] = useState(false);
     const [foodCount, setFoodCount] = useState({});
@@ -48,6 +47,7 @@ export default function Orders({ ordersId }) {
         // ejecuto la logica
         let products = [];
         dispatch(getOrdersHistory(ordersId)).then(({ payload }) => {
+            console.log("SOY NUEVO PAYLOAD: ", payload)
             payload.map(({ info }) =>
                 products.push({ pedido: info[0].products, totalPrice: 15000 })
             );

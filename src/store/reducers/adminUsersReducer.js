@@ -39,13 +39,15 @@ export const adminDeleteUser = createAsyncThunk(
 export const getOrdersHistory = createAsyncThunk(
     "ORDERS_HISTORY",
     async (id) => {
-        const { data } = await axios.get("/api/order", { headers: { id } });
+        console.log("ENTRE AL ORDER HISTORY: ", id)
+        const { data } = await axios.get("/api/order/user", { headers: { id } });
         return data;
     }
 );
 
 const adminUsersReducer = createReducer([], {
     [getAllUsers.fulfilled]: (state, action) => action.payload,
+    [getAllUsers.rejected]: (state, action) =>  state = {rejected: true}
 });
 
 export default adminUsersReducer;

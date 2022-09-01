@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useEffect } from "react";
 import { logPersist } from "../store/reducers/userReducer.js";
 import Profile from "../components/Profile.jsx";
@@ -12,11 +12,13 @@ import Category from "../components/Category";
 import Order from "../components/Order.jsx";
 import { fetchCart } from "../store/reducers/cartReducer.js";
 import Dashboard from "./dashboard/Dashboard.jsx";
+import { getAdmin } from "../store/reducers/adminLog.js";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(logPersist());
+    dispatch(getAdmin())
   }, [dispatch]);
 
   useEffect(() => {

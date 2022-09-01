@@ -12,7 +12,7 @@ router.use("/user", user);
 router.use("/admin", validateAuth, validateAdmin, admin);
 router.use("/car", car);
 router.use("/products", products);
-router.use("/order", order);
+router.use("/order", validateAuth, order);
 router.use("/fav", favorites);
 
 module.exports = router;

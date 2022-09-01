@@ -9,9 +9,9 @@ const Category = () => {
       <div>
       <CategoryContainer />
       <Link to="/">
-        <button type="button" class="btn btn-info">
+        {/* <button type="button" class="btn btn-info">
           Back to Home
-        </button>
+        </button> */}
       </Link>
     </div>
   );

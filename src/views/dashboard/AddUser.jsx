@@ -61,7 +61,7 @@ export default function AddUser() {
 
     // useEffect para traer a los usuarios
     useEffect(() => {
-        dispatch(getAllUsers()).then(() => console.log("usuarios traidos!"));
+        dispatch(getAllUsers());
     }, [open]);
 
     return (

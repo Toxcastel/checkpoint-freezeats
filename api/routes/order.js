@@ -1,12 +1,12 @@
 const {orderCtrl} = require("../controllers")
-const { validateAuth } = require("../middlewares/auth.js");
 const express = require("express")
 
 const router = express.Router()
 
-router.get("/", validateAuth,orderCtrl.findAllOrder)
-router.post("/", validateAuth,orderCtrl.addOrder)
-router.put("/checkout", validateAuth,orderCtrl.orderFullfiled)
-router.put("/rejected", validateAuth,orderCtrl.orderRejected)
+router.get("/", orderCtrl.findAllOrder)
+router.get("/user", orderCtrl.findUserOrders)
+router.post("/", orderCtrl.addOrder)
+router.put("/checkout", orderCtrl.orderFullfiled)
+router.put("/rejected", orderCtrl.orderRejected)
 
 module.exports=router;
