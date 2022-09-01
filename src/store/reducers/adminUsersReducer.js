@@ -36,6 +36,14 @@ export const adminDeleteUser = createAsyncThunk(
     }
 );
 
+export const getOrdersHistory = createAsyncThunk(
+    "ORDERS_HISTORY",
+    async (id) => {
+        const { data } = await axios.get("/api/order", { headers: { id } });
+        return data;
+    }
+);
+
 const adminUsersReducer = createReducer([], {
     [getAllUsers.fulfilled]: (state, action) => action.payload,
 });

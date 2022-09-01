@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddUser from "./AddUser";
+import Orders from "./Orders";
 
 const Users = () => {
     const users = useSelector((state) => state.adminUsers);
@@ -83,6 +84,7 @@ const Users = () => {
                             <TableCell>Name</TableCell>
                             <TableCell>Last Name</TableCell>
                             <TableCell>E-mail</TableCell>
+                            <TableCell>Orders</TableCell>
                             <TableCell>Role</TableCell>
                             <TableCell align="right">Delete</TableCell>
                         </TableRow>
@@ -95,6 +97,9 @@ const Users = () => {
                                     <TableCell>{user.name}</TableCell>
                                     <TableCell>{user.lastname}</TableCell>
                                     <TableCell>{user.email}</TableCell>
+                                    <TableCell>
+                                        <Orders ordersId={user.id} />
+                                    </TableCell>
                                     <TableCell>
                                         <FormControlLabel
                                             control={
