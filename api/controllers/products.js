@@ -8,13 +8,12 @@ const prodCtrl = {
   },
   getProductsByCategory: async (req, res) => {
     const category = req.params.category;
-    console.log("category", category);
     const products = await Product.find({ category });
     res.send(products);
   },
   getProductByName: async (req, res) => {
     const {name} = req.params
-    const product = await Product.find({ name:{$regex:name.toLowerCase()} });
+    const product = await Product.find({ name:{$regex:name} });
     res.send(product);
   },
   getOneProduct: async (req, res) => {

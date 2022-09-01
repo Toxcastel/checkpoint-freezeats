@@ -6,12 +6,14 @@ const {google} = require("googleapis");
 
 const orderCtrl = {
   addOrder: (req, res) => {
-    const id = req.headers.id;
+    const id = req.user;
+    const {total} = req.body;
     Car.find({ user: id }).then((prods) => {
         User.findById(id).then((user) => {
           let newOrder = new Order({
             info: prods,
             user: id,
+            total,
           });
           newOrder.save().then((order) => {
            user.orderHistory = user.orderHistory.concat(order._id)
@@ -23,7 +25,7 @@ const orderCtrl = {
   },
 
   findAllOrder: (req,res)=> {
-    const id = req.headers.id;
+    const id = req.user
     Order.find({user: id}).then((order)=>{
         res.json(order)
     })

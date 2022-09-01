@@ -11,13 +11,18 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LunchDiningSharpIcon from "@mui/icons-material/LunchDiningSharp";
 import { Link } from "react-router-dom";
+import Car from "./Car";
+import { toggleCart } from "../store/reducers/cartShowReducer";
 
 
 const Navbar = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+
+ 
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -37,15 +42,16 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+
   return (
     <AppBar position="static" sx={{ bgcolor: "#00897b" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+        <Link to="/">
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -58,7 +64,8 @@ const Navbar = () => {
           >
             Freezeats
           </Typography>
-
+          </Link>
+          
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -121,7 +128,8 @@ const Navbar = () => {
               </Button>
               <Button
                 sx={{ my: 2, color: "white", display: "block" }}
-                href="/car">
+                
+                onClick={()=> dispatch(toggleCart(true))}>
                Car
               </Button>
           </Box>

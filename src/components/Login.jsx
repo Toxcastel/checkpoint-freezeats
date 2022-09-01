@@ -107,45 +107,6 @@ const Login = () => {
                 </Box>
             </Container>
         </ThemeProvider>
-        // <div className="container">
-        //     <div>
-        //         <div>
-        //             <form className="" onSubmit={handleSubmit}>
-        //                 <div className="mb-3">
-        //                     <label htmlFor="email" className="form-label">
-        //                         Email address:
-        //                     </label>
-        //                     <input
-        //                         aria-label="Email"
-        //                         type="email"
-        //                         className="form-control"
-        //                         id="email"
-        //                         placeholder="Email address"
-        //                         {...email}
-        //                     />
-        //                 </div>
-        //                 <div className="mb-3">
-        //                     <label htmlFor="password" className="form-label">
-        //                         Password:
-        //                     </label>
-        //                     <input
-        //                         id="password"
-        //                         className="form-control"
-        //                         aria-label="Password"
-        //                         type="password"
-        //                         placeholder="Password"
-        //                         {...password}
-        //                     />
-        //                 </div>
-        //                 <div>
-        //                     <button type="submit" className="btn btn-primary">
-        //                         Log in!
-        //                     </button>
-        //                 </div>
-        //             </form>
-        //         </div>
-        //     </div>
-        // </div>
     );
 };
 

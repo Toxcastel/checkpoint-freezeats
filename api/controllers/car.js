@@ -1,26 +1,28 @@
-const { Car, User } = require("../models");
+const { Car, User, Product } = require("../models");
 
 const carCtrl = {
-  
+
+ 
   addProductToCart: (req, res) => {
-    const { products, address, userId, quantity } = req.body;
-    Car.find({ user: userId }).then((prods) => {
-      if (prods.length === 0) {
-        User.findById(userId).then((user) => {
+    const { products, address} = req.body;
+    console.log("user",req.user);
+    Car.findOne({ user: req.user }).then((prods) => {
+      if (!prods) {
+        User.findById(req.user).then((user) => {
           let newProduct = new Car({
             products,
             address,
             user: user.id,
           });
-
-          newProduct.save().then((prod) => {
+            newProduct.save().then((prod) => {
+              console.log("prod",prod);
             res.json(prod);
           });
         });
       } else {
-        const prod = prods[0].products.concat(products);
+        const prod = prods.products.concat(products);
         Car.findByIdAndUpdate(
-          prods[0].id,
+          prods.id,
           { products: prod },
           { new: true }
         ).then((result) => {
@@ -30,16 +32,20 @@ const carCtrl = {
     });
   },
 
-  findAllProductsInCart: (req, res) => {
-    const id = req.headers.id;
-    Car.find({ user: id }).then((prods) => {
-      res.json(prods);
+  findCartByUser: (req, res) => {
+    const id = req.user;
+    Car.findOne({ user: id }).then((prods) => {
+      let resp = { products: [], address:null, user:null, id:null};
+      if(prods){
+        resp={ products: prods.products, address: prods.address, user: prods.user, id:prods._id} 
+      }
+      res.json(resp);
     });
   },
 
   deleteProductToCart: (req, res) => {
-    const { id, productid } = req.headers;
-    Car.findById(id).then((cart) => {
+    const {productid, cartid} = req.headers;
+    Car.findById(cartid).then((cart) => {
       const newCart = cart.products.filter((prod) => prod.id !== productid);
       cart.products = newCart;
       cart.save();
@@ -47,20 +53,26 @@ const carCtrl = {
     });
   },
 
-  updateProductToCart: (req, res) => {
-    const { quantity } = req.body;
-    const { id, productid } = req.headers;
-    Car.findById(id).then((cart) => {
-      cart.products.map((prod) => {
-        if (prod.id === productid) {
-          prod.quantity = quantity;
-        }
+  updateProductToCart: async (req, res) => {
+    const { cartId, productid, quantity } = req.body;
+    const product = await Product.findById(productid);
+    const stock = product.stock;
+    if (quantity > stock) {
+      res.status(200).json({
+        ok:false, errorMessage:"No hay suficiente stock",
       });
-      cart.save();
-      res.json(cart);
-    });
-  },
+      return;
+    }
 
+    if(quantity < 1){
+      res.status(200).json({ok:false, errorMessage:"Cantidad mínima de compra 1 unidad"});
+    }else{  
+      const cart = await Car.findOneAndUpdate({  _id: cartId }, { $set: { "products.$[elem].quantity": quantity } }, { arrayFilters: [ { "elem.id": productid } ], new: true }
+      )
+      res.json({cart,ok:true});
+  }}
+
+  
 };
 
 module.exports = carCtrl;

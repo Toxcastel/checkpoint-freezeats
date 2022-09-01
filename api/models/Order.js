@@ -7,6 +7,7 @@ const orderSchema = new Schema({
       type: String,
       default: "Pending"
     },
+    total: Number,
     user: String
 },{versionKey:false});
 

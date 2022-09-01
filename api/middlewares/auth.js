@@ -8,7 +8,7 @@ function validateAuth(req, res, next) {
     if (!user) return res.status(401).send("User not found");
 
     req.user = user;
-
+    
     next();
 }
 
