@@ -1,12 +1,12 @@
 const { adminCtrl } = require("../controllers");
-const { validateAuth } = require("../middlewares/auth.js");
 const express = require("express");
 const router = express.Router();
 
-// router.post("/signup", adminCtrl.signup);
-// router.post("/login", adminCtrl.login);
-// router.post("/logout", adminCtrl.logout);
-// router.put("/profile", validateAuth, adminCtrl.updateUser);
-// router.get("/profile", validateAuth, adminCtrl.getUser);
+router.get("/", adminCtrl.getAdmin);
+router.get("/users", adminCtrl.getAllUsers);
+router.get("/roles/:role", adminCtrl.getRoleById);
+router.get("/roles", adminCtrl.getRoles);
+router.put("/users/:id", adminCtrl.changeRole);
+router.delete("/users/:id", adminCtrl.deleteUser);
 
 module.exports = router;

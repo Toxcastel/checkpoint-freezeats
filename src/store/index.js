@@ -8,6 +8,9 @@ import allProducts from "./reducers/allProductsReducer";
 import cart from "./reducers/cartReducer";
 import cartShow from "./reducers/cartShowReducer";
 import order from "./reducers/orderReducer";
+import adminUsersReducer from "./reducers/adminUsersReducer";
+import setViewsReducer from "./reducers/setViewsReducer";
+import adminProductsReducer from "./reducers/adminProductsReducer";
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
@@ -20,6 +23,9 @@ const store = configureStore({
     cart,
     cartShow,
     order,
+    adminUsers: adminUsersReducer,
+    adminProducts: adminProductsReducer,
+    views: setViewsReducer,
   },
 });
 

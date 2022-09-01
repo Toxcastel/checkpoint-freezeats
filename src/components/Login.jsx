@@ -37,7 +37,7 @@ const Login = () => {
             })
             .then(({ data }) => {
                 dispatch(logHandler(data.user));
-                message.success(`Welcome ${data.user.name}!`);
+                message.success(`Welcome ${data.user.name}!`, 1);
                 navigate("/profile");
             })
             .catch(({ response }) => {

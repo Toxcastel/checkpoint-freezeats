@@ -11,6 +11,7 @@ import Car from "../components/Car.jsx";
 import Category from "../components/Category";
 import Order from "../components/Order.jsx";
 import { fetchCart } from "../store/reducers/cartReducer.js";
+import Dashboard from "./dashboard/Dashboard.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function App() {
         <Route path="/car" element={<Car />} />
         <Route path="/products/category/:category" element={<Category />} />
         <Route path="/order" element={<Order />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Car />
     </div>

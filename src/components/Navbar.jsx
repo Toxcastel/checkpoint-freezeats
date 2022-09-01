@@ -162,8 +162,7 @@ const Navbar = () => {
                 </MenuItem>
               </Menu>
               <Button onClick={() => dispatch(toggleCart(true))}>
-
-              <CartIcon  />
+                <CartIcon />
               </Button>
             </Box>
           ) : (
