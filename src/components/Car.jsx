@@ -1,5 +1,5 @@
 import axios from "axios";
-import {  setCart } from "../store/reducers/cartReducer";
+import { setCart } from "../store/reducers/cartReducer";
 import {
     Alert,
     Avatar,
@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleCart } from "../store/reducers/cartShowReducer";
 import { Stack } from "@mui/system";
 import { Link } from "react-router-dom";
+import { addNewOrder } from "../store/reducers/orderReducer";
 
 const Car = () => {
     const dispatch = useDispatch();
@@ -192,10 +193,6 @@ const Car = () => {
                                                             updateCart.data.cart
                                                         )
                                                     );
-                                                    products(
-                                                        updateCart.data.cart
-                                                            .products
-                                                    );
                                                 });
                                         }}
                                     />
@@ -242,10 +239,6 @@ const Car = () => {
                                                         setCart(
                                                             updateCart.data.cart
                                                         )
-                                                    );
-                                                    products(
-                                                        updateCart.data.cart
-                                                            .products
                                                     );
                                                 });
                                         }}
@@ -317,7 +310,7 @@ const Car = () => {
                     }}
                 >
                     <Stack direction="row" spacing={2}>
-                        <Link to="/order">
+                        <Link to="/checkout">
                             <Button
                                 variant="contained"
                                 sx={{
@@ -328,6 +321,10 @@ const Car = () => {
                                     ":hover": {
                                         backgroundColor: "#009688",
                                     },
+                                }}
+                                onClick={() => {
+                                    dispatch(toggleCart(false));
+                                    dispatch(addNewOrder(total));
                                 }}
                             >
                                 Continuar compra

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import {remove} from "../../utils"
 
 const productsSlice = createSlice({
   name: "products",
@@ -31,6 +30,7 @@ export const { getProducts, getProductDetail, search, addFav, removeFav } =
   productsSlice.actions;
 
 export const handleProducts = (paginationNumber) => (dispatch) => {
+
   axios
     .get(`/api/products?pages=${paginationNumber}`)
     .then((allProducts) => {
@@ -39,8 +39,8 @@ export const handleProducts = (paginationNumber) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+
 export const handleProductDetail = (product) => (dispatch) => {
-  console.log(">>>>>", product, dispatch);
   dispatch(getProductDetail(product));
 };
 

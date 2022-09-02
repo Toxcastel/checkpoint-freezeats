@@ -1,14 +1,14 @@
 const { Car, User, Product } = require("../models");
 
 const carCtrl = {
+
     addProductToCart: (req, res) => {
-        const { products, address } = req.body;
+        const { products } = req.body;
         Car.findOne({ user: req.user }).then((prods) => {
             if (!prods) {
                 User.findById(req.user).then((user) => {
                     let newProduct = new Car({
                         products,
-                        address,
                         user: user.id,
                     });
                     newProduct.save().then((prod) => {
@@ -25,6 +25,7 @@ const carCtrl = {
                     res.json(result);
                 });
             }
+
         });
     },
 

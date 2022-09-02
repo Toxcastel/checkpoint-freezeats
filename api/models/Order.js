@@ -10,6 +10,16 @@ const orderSchema = new Schema(
     },
     user: String,
     total: Number,
+    paymentMethod: {
+      type: String,
+      default: "efectivo"},
+    shipping: {
+      type: String,
+      default: "Retiro en sucursal"},
+    address: {
+      type:{street: String, number: Number, city: String, province: String, postalCode: Number},
+      default: {street: "", number: null, city: "", province: "", postalCode: null}
+    },
   },
   { versionKey: false }
 );

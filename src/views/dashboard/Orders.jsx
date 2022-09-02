@@ -21,6 +21,7 @@ export default function Orders({ ordersId }) {
         products: [],
         totalPrice: undefined,
     };
+    
     // estados
     const [open, setOpen] = useState(false);
     const [displayOrders, setDisplayOrders] = useState(initialState);
@@ -30,10 +31,12 @@ export default function Orders({ ordersId }) {
 
     // handles
     const getFoodCount = (object) => {
+        
         let prueba = [];
         for (const property in object) {
             prueba.push(<div>{`${property} x ${object[property]}`}</div>);
         }
+       
         return prueba;
     };
     const handleClose = () => setOpen(false);
@@ -81,6 +84,7 @@ export default function Orders({ ordersId }) {
                         {displayOrders.length ? (
                             displayOrders.map((order, i) => (
                                 <TableRow key={i}>
+                        
                                     <TableCell key={i}>
                                         {order.pedido.forEach((sub, i) => {
                                             conteo[sub.name] =
@@ -91,6 +95,7 @@ export default function Orders({ ordersId }) {
                                             }
                                         })}
 
+                                        
                                         {resumen.length ? (
                                             <>{getFoodCount(resumen[i])}</>
                                         ) : (

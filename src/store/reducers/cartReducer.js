@@ -20,13 +20,10 @@ export const cartSlice = createSlice({
 
 export const {setCart} = cartSlice.actions;
 
-export default cartSlice.reducer
-
 export const fetchCart = () => (dispatch) => {
     axios
      .get("/api/car")
      .then((data) => {
-      console.log("data",data)
        dispatch(setCart(data.data))
      })
      .catch((err) => console.log(err));
@@ -34,7 +31,7 @@ export const fetchCart = () => (dispatch) => {
 
 
 
-
+export default cartSlice.reducer
 
 
 

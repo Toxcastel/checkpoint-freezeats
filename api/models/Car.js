@@ -4,7 +4,6 @@ const { model, Schema } = require("mongoose");
 const carSchema = new Schema(
   {
     products: [Object],
-    address: String,
     user: String,
   },
   { versionKey: false }
