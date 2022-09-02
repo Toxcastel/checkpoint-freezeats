@@ -15,7 +15,6 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(handleProducts());
-    console.log('aca');
     dispatch(handleAllProducts());
   }, []);
 

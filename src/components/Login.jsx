@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import { ThemeProvider } from "@mui/system";
+import { getAdmin } from "../store/reducers/adminLog";
 
 const Login = () => {
     // variables
@@ -38,6 +39,7 @@ const Login = () => {
             .then(({ data }) => {
                 dispatch(logHandler(data.user));
                 message.success(`Welcome ${data.user.name}!`, 1);
+                dispatch(getAdmin())
                 navigate("/profile");
             })
             .catch(({ response }) => {

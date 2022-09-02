@@ -22,6 +22,7 @@ import axios from "axios";
 import { logOut } from "../store/reducers/userReducer";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { message } from "antd";
+import { getAdmin, logOutAdmin } from "../store/reducers/adminLog";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user);
@@ -50,10 +51,13 @@ const Navbar = () => {
     const handleLogOut = () => {
         axios.post("/api/user/logout").then(() => {
             message.success(`Chau`, 1);
+            dispatch(logOutAdmin())
             dispatch(logOut());
             navigate("/");
         });
     };
+
+    
 
     const home = () => {
         dispatch(backHome());
@@ -164,7 +168,7 @@ const Navbar = () => {
                         }}
                     >
                         <Button>
-                            <Link to="/fav"> Favorites</Link>
+                            <Link to="/fav"> <div style={{ color: "white" }}>Favorites</div></Link>
                         </Button>
                     </Box>
                     <SearchBar />
@@ -211,7 +215,7 @@ const Navbar = () => {
                             <Button onClick={() => dispatch(toggleCart(true))}>
                                 <CartIcon />
                             </Button>
-                            {admin ? (
+                            {admin.logged ? (
                                 <IconButton
                                     sx={{
                                         backgroundColor: "#80cbc4",

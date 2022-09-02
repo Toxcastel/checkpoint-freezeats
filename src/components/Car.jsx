@@ -81,7 +81,7 @@ const Car = () => {
                 color="black"
                 sx={{ textAlign: "center", mt: 8, mb: 4 }}
             >
-                Your Cart
+                Tu carrito
             </Typography>
 
             {cartInfo && cartInfo.length ? (
@@ -281,7 +281,7 @@ const Car = () => {
                         justifyContent={"end"}
                         sx={{ mt: 0.8 }}
                     >
-                        Empty Cart
+                        Carrito vacío
                     </Typography>
                 </Box>
             )}

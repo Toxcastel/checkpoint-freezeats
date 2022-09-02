@@ -71,7 +71,7 @@ function DashboardContent() {
 
     useEffect(() => {
         
-        if (admin.rejected) {
+        if (!admin.logged) {
             message.error("Nothing to do here", 1);
             navigate("/");
             dispatch(loadingHandler(true));

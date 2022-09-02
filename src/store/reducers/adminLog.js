@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+    createAction,
     createAsyncThunk,
     createReducer,
 } from "@reduxjs/toolkit";
@@ -9,10 +10,13 @@ export const getAdmin = createAsyncThunk("LOG_ADMIN", async () => {
     if (status === 200) return {logged: true};
 });
 
+export const logOutAdmin = createAction("LOG_OUT", () => {
+    return {logged: false}
+});
+
 const adminLogReducer = createReducer({logged: false}, {
     [getAdmin.fulfilled]: (state, action) => state = {logged: true},
-    [getAdmin.rejected]: (state, action) => {state.rejected = true},
-    [getAdmin.pending]: (state, action) => {state.pending = true},
+    [logOutAdmin]: (state, action) => state = {logged: false},
 });
 
 export default adminLogReducer;

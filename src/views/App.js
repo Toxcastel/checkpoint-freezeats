@@ -16,6 +16,7 @@ import { getAdmin } from "../store/reducers/adminLog.js";
 import CategoryContainer from "../components/CategoryContainer.jsx";
 
 import Fav from "../components/Fav.jsx";
+import NotFound from "../components/NotFound.jsx";
 
 function App() {
     const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/fav" element={<Fav />} />
                 <Route path="/checkout" element={<Order />} />
                 <Route path="/resume" element={<Resume />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
             <Car />
         </div>
