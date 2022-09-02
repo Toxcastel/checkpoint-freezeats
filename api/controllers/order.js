@@ -77,9 +77,8 @@ const orderCtrl = {
     orderFullfiled: (req, res) => {
         const id = req.user;
         Order.findOne({ user: id }).then((order) => {
-            console.log("order", order);
             order.state = "Fullfiled";
-            order.save();
+            order.save().then();
             res.json(order);
             User.findById(id).then((user) => {
                 const oAuth2Client = new google.auth.OAuth2(
@@ -128,7 +127,7 @@ const orderCtrl = {
         const id = req.user;
         Order.findOneAndUpdate({ user: id }, { state: "Rejected" }).then(
             (order) => {
-                order.save();
+                order.save().then();
                 res.json(order);
             }
         );
@@ -142,7 +141,7 @@ const orderCtrl = {
             { shipping: shippingMethod },
             { new: true }
         ).then((order) => {
-            order.save();
+            order.save().then();
             res.json(order);
         });
     },
@@ -155,7 +154,7 @@ const orderCtrl = {
             { paymentMethod },
             { new: true }
         ).then((order) => {
-            order.save();
+            order.save().then();
             res.json(order);
         });
     },
@@ -164,7 +163,7 @@ const orderCtrl = {
         const id = req.user;
         Order.findOne({ user: id }).then((order) => {
             order.address = req.body;
-            order.save();
+            order.save().then();
             res.json(order);
         });
     },

@@ -39,6 +39,7 @@ const Cards = () => {
         state.products.productDetail,
     ]);
     const user = useSelector((state) => state.user);
+    const productsInCart = useSelector((state) => state.cart.products);
     const [expanded, setExpanded] = React.useState(false);
 
     let componente;
@@ -65,6 +66,10 @@ const Cards = () => {
         setOpen(false);
     };
 
+    const isProductInCart = (productId) => {
+        if (!productsInCart) return false;
+        return !!productsInCart.find((p) => p.id === productId);
+    };
 
     return (
         <>
@@ -166,7 +171,7 @@ const Cards = () => {
                                 )}
                                 <IconButton
                                     aria-label="car"
-                                    onClick={addProductToCart}
+                                    onClick={addProductToCart} disabled={isProductInCart(product.id)}
                                 >
                                     <AddShoppingCartSharpIcon />
                                 </IconButton>

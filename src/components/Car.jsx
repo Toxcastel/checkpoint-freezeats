@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setCart } from "../store/reducers/cartReducer";
+import { setCart, setProducts } from "../store/reducers/cartReducer";
 import {
     Alert,
     Avatar,
@@ -122,7 +122,7 @@ const Car = () => {
                                                                 item.id
                                                         );
                                                     setCartInfo(newArray);
-
+                                                    dispatch(setProducts(newArray))
                                                     products(newArray);
                                                 })
                                                 .catch((err) =>
