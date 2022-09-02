@@ -10,10 +10,7 @@ export const getAdmin = createAsyncThunk("LOG_ADMIN", async () => {
 });
 
 const adminLogReducer = createReducer({logged: false}, {
-    [getAdmin.fulfilled]: (state, action) => {
-        state.pending = false;
-        state.fulfilled = true;
-        return action.payload},
+    [getAdmin.fulfilled]: (state, action) => state = {logged: true},
     [getAdmin.rejected]: (state, action) => {state.rejected = true},
     [getAdmin.pending]: (state, action) => {state.pending = true},
 });

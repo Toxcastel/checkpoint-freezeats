@@ -1,51 +1,30 @@
-import * as React from "react";
+import { Container, Grid, IconButton, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { loadingHandler } from "../../store/reducers/loadingReducer";
+import {
+    adminDeleteProduct,
+    adminGetAllProducts,
+} from "../../store/reducers/adminProductsReducer";
+import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {
-    adminDeleteUser,
-    changeUserRole,
-    getAllUsers,
-} from "../../store/reducers/adminUsersReducer";
-import { useDispatch, useSelector } from "react-redux";
-import { loadingHandler } from "../../store/reducers/loadingReducer";
 import Loading from "../../commons/Loading";
-import {
-    Container,
-    FormControlLabel,
-    Grid,
-    IconButton,
-    Switch,
-    Typography,
-} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddUser from "./AddUser";
-import Orders from "./Orders";
-import { adminGetAllProducts } from "../../store/reducers/adminProductsReducer";
-import EditIcon from '@mui/icons-material/Edit';
+import EditProduct from "./EditProduct";
+import AddProduct from "./AddProduct";
 
 const Products = () => {
     const products = useSelector((state) => state.adminProducts);
     const loading = useSelector((state) => state.loading);
-    const [changeIcon, setChangeIcon] = useState(true);
     const [deleteAction, setDeleteAction] = useState(true);
     const dispatch = useDispatch();
 
-    const handleChange = (obj) => {
-        dispatch(changeUserRole(obj)).then(() => {
-            if (changeIcon) {
-                setChangeIcon(false);
-            } else {
-                setChangeIcon(true);
-            }
-        });
-    };
-
-    const deleteUser = (userId) => {
-        dispatch(adminDeleteUser(userId)).then(() => {
+    const deleteProduct = (prodId) => {
+        dispatch(adminDeleteProduct(prodId)).then(() => {
             if (deleteAction) {
                 setDeleteAction(false);
             } else {
@@ -54,13 +33,10 @@ const Products = () => {
         });
     };
 
-    const getRole = (role) => {
-        if (role === "admin") return true;
-        else return false;
-    };
-
     useEffect(() => {
-        dispatch(adminGetAllProducts()).then(() => console.log("products aquí!"));
+        dispatch(adminGetAllProducts()).then(() =>
+            console.log("products aquí!")
+        );
     }, []);
 
     useEffect(() => {
@@ -77,7 +53,7 @@ const Products = () => {
                         <Typography>Products manager</Typography>
                     </Grid>
                     <Grid item xs={12} md={4} lg={3}>
-                        <AddUser />
+                        <AddProduct />
                     </Grid>
                 </Container>
                 <Table size="small">
@@ -95,7 +71,6 @@ const Products = () => {
                     </TableHead>
                     <TableBody>
                         {products.map((product) => {
-                            
                             return (
                                 <TableRow key={product.id}>
                                     <TableCell>{product.name}</TableCell>
@@ -104,16 +79,17 @@ const Products = () => {
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.stock}</TableCell>
                                     <TableCell>{product.rating}</TableCell>
-                                   
                                     <TableCell>
-                                        <EditIcon />
+                                        <EditProduct {...product} />
                                     </TableCell>
                                     <TableCell align="right">
-                                            <DeleteIcon />
-                                        {/* <IconButton
-                                            onClick={() => deleteUser(product.id)}
+                                        <IconButton
+                                            onClick={() =>
+                                                deleteProduct(product.id)
+                                            }
                                         >
-                                        </IconButton> */}
+                                            <DeleteIcon />
+                                        </IconButton>
                                     </TableCell>
                                 </TableRow>
                             );

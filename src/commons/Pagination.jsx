@@ -9,6 +9,8 @@ export default function PaginationControlled() {
   const dispatch = useDispatch();
   const [page, setPage] = React.useState(1);
   const handleChange = (event, value) => {
+    console.log("event!: ", event)
+    console.log("value!: ", value)
     setPage(value);
     //page = 3
     dispatch(handleProducts(page));

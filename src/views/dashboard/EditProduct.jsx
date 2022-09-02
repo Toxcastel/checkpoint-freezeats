@@ -1,10 +1,8 @@
 import { CssBaseline, IconButton, Input } from "@mui/material";
 import { useEffect, useState } from "react";
-import { adminGetAllProducts } from "../../store/reducers/adminProductsReducer";
 import { useDispatch } from "react-redux";
-import { useInput } from "../../hooks/useInput";
+import { adminGetAllProducts } from "../../store/reducers/adminProductsReducer";
 import { message } from "antd";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -17,21 +15,24 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function AddProduct(props) {
+export default function EditProduct(props) {
     // variables formulario
-    const name = useInput("name");
-    const description = useInput ("description");
-    const category = useInput("category");
-    const price = useInput("price");
-    const stock = useInput("stock");
-    const imgUrl = useInput("imgUrl");
-    const rating = useInput("rating");
+    const { category, description, id, imgUrl, name, price, stock, rating } =
+        props;
+    useState();
+    const [newName, setNewName] = useState(name);
+    const [newDescription, setNewDescription] = useState(description);
+    const [newPrice, setNewPrice] = useState(price);
+    const [newStock, setNewStock] = useState(stock);
+    const [newCategory, setNewCategory] = useState(category);
+    const [newImgUrl, setNewImgUrl] = useState(imgUrl);
+    const [newRating, setNewRating] = useState(rating);
     const dispatch = useDispatch();
 
     // estados
     const [open, setOpen] = useState(false);
-    const [oCategory, setOCategory] = useState("");
 
     // handles
     const handleClose = () => setOpen(false);
@@ -39,22 +40,22 @@ export default function AddProduct(props) {
         setOpen(true);
     };
     const handleChange = (event) => {
-        setOCategory(event.target.value);
+        setNewCategory(event.target.value);
     };
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post(`/api/products/`, {
-                name: name.value,
-                description: description.value,
-                price: price.value,
-                stock: stock.value,
-                category: category.value,
-                imgUrl: imgUrl.value,
-                rating: rating.value
+            .put(`/api/products/${id}`, {
+                name: newName,
+                description: newDescription,
+                price: newPrice,
+                stock: newStock,
+                category: newCategory,
+                imgURL: newImgUrl,
+                rating: newRating,
             })
             .then(() => {
-                message.success("Product created!", 1);
+                message.success("Product changed!", 1);
                 handleClose();
             })
             .catch((err) => {
@@ -70,11 +71,11 @@ export default function AddProduct(props) {
     return (
         <div>
             <IconButton variant="outlined" onClick={handleClickOpen}>
-                <AddCircleIcon />
+                <EditIcon />
             </IconButton>
             <Dialog open={open} onClose={handleClose}>
                 <Box component="form" onSubmit={handleSubmit}>
-                    <DialogTitle>Añadir nuevo producto</DialogTitle>
+                    <DialogTitle>Edit</DialogTitle>
                     <DialogContent>
                         <FormControl
                             autoFocus
@@ -88,7 +89,10 @@ export default function AddProduct(props) {
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
-                                {...name}
+                                defaultValue={name}
+                                onChange={(e) => {
+                                    setNewName(e.target.value);
+                                }}
                             />
                         </FormControl>
                         <FormControl
@@ -105,7 +109,10 @@ export default function AddProduct(props) {
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
-                                {...description}
+                                defaultValue={description}
+                                onChange={(e) =>
+                                    setNewDescription(e.target.value)
+                                }
                             />
                         </FormControl>
                         <FormControl
@@ -123,9 +130,8 @@ export default function AddProduct(props) {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 label="Category"
-                                value={oCategory}
-                                onChange={handleChange}
-                                {...category}
+                                defaultValue={category}
+                                onChange={(e) => handleChange(e)}
                             >
                                 <MenuItem value={"argentina"}>
                                     Argentina
@@ -151,7 +157,8 @@ export default function AddProduct(props) {
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
-                                {...price}
+                                defaultValue={price}
+                                onChange={(e) => setNewPrice(e.target.value)}
                             />
                         </FormControl>
                         <FormControl
@@ -166,7 +173,8 @@ export default function AddProduct(props) {
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
-                                {...stock}
+                                defaultValue={stock}
+                                onChange={(e) => setNewStock(e.target.value)}
                             />
                         </FormControl>
                         <FormControl
@@ -181,7 +189,8 @@ export default function AddProduct(props) {
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
-                                {...rating}
+                                defaultValue={rating}
+                                onChange={(e) => setNewRating(e.target.value)}
                             />
                         </FormControl>
                         <FormControl
@@ -198,7 +207,8 @@ export default function AddProduct(props) {
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
-                                {...imgUrl}
+                                defaultValue={imgUrl}
+                                onChange={(e) => setNewImgUrl(e.target.value)}
                             />
                         </FormControl>
                     </DialogContent>

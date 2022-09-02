@@ -47,10 +47,13 @@ usersSchema.pre("save", function () {
 });
 
 usersSchema.statics.login = function ({ email, password }) {
+
     return this.findOne({ email }).then((user) => {
         if (user) {
+            console.log("user en login: ", user)
             return bcrypt.compare(password, user.password).then((auth) => {
                 if (auth) {
+                    console.log("AUTH: ", auth)
                     return user;
                 }
                 throw Error("incorrect password");
