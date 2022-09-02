@@ -65,12 +65,12 @@ const Navbar = () => {
               }}
             >
               <Link to="/" onClick={home}>
-                Freezeats
+                FreezEats
               </Link>
             </Typography>
           </Link>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, boxShadow: 10, }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -125,7 +125,7 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           ></Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }}} >
             <Button>
               <Link to="/products"> Favorites</Link>
             </Button>

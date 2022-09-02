@@ -5,7 +5,7 @@ import { handleAllProducts } from "../store/reducers/allProductsReducer";
 import * as React from "react";
 import Cards from "../commons/Card"
 import Header from "../commons/Header";
-import { fetchCart } from "../store/reducers/cartReducer";
+import Pagination from "../commons/Pagination";
 
 
 const Home = () => {
@@ -15,16 +15,19 @@ const Home = () => {
   
   useEffect(() => {
     dispatch(handleProducts());
+    console.log('aca');
     dispatch(handleAllProducts());
-  }, [dispatch]);
+  }, []);
 
 
 
   return (
  <>
+ <hr></hr>
  <Header />
  <hr></hr>
  <Cards />
+ <Pagination />
  
  </>
   );

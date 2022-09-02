@@ -18,8 +18,6 @@ import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 
-const product =
-  "https://i.pinimg.com/originals/75/1b/5c/751b5c7db42cb7b4a55706438c779fc4.jpg";
 
 const ProductDetail = (props) => {
   const { open, handleClose, productDetail } = props;
@@ -41,7 +39,7 @@ const ProductDetail = (props) => {
         fullWidth="fullWidth"
         TransitionComponent={Transition}
       >
-        <DialogTitle className="App" sx={{ bgcolor: "#00897b" }}>
+        <DialogTitle className="App" sx={{ bgcolor: "#00897b"}}>
           <Typography
             variant="h2"
             align="center"
@@ -51,11 +49,11 @@ const ProductDetail = (props) => {
           </Typography>
         </DialogTitle>
         <DialogContent dividers>
-          <Grid container>
-            <Box sx={{ display: "inline-block", width: "50%" }}>
+          <Grid container sx={{ boxShadow: 10 }}>
+            <Box sx={{ display: "inline-block", width: "50%",boxShadow: 10 }}>
               <CardMedia
                 component="img"
-                image={product}
+                image={productDetail.imgUrl}
                 alt="Nombre del plato"
               />
             </Box>

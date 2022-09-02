@@ -12,7 +12,7 @@ createRoles();
 
 require("dotenv").config();
 
-app.use(morgan("dev"));
+app.use(morgan("tiny"));
 app.use(cors());
 
 app.use(express.json());
