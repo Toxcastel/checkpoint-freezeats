@@ -46,7 +46,6 @@ const Profile = () => {
     console.log(textValue);
   };
 
-  // intento de protección de ruta. La idea es capturar la validación desde la api, sin tomar en cuenta el reducer.
   useEffect(() => {
     axios
       .get("/api/user/profile")

@@ -32,12 +32,9 @@ const userCtrl = {
     },
 
     login: async (req, res) => {
-        console.log("que llega: ", req.body)
         try {
             const user = await User.login(req.body);
-            console.log("user: ", user)
             const rol = await Role.findById(user.roles[0]);
-            console.log("rol: ", rol)
             res.cookie("jwt", generateToken(user._id), {
                 httpOnly: true,
                 maxAge,
