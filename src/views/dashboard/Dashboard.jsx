@@ -163,7 +163,7 @@ function DashboardContent() {
                         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                             <Grid container spacing={3}>
                                 {/* Ordenes */}
-                                {views === "orders" || views === "all" ? (
+                                {/* {views === "orders" || views === "all" ? (
                                     <Grid item xs={12} md={8} lg={9}>
                                         <Paper
                                             sx={{
@@ -178,7 +178,7 @@ function DashboardContent() {
                                     </Grid>
                                 ) : (
                                     <></>
-                                )}
+                                )} */}
 
                                 {/* Productos */}
                                 {views === "products" || views === "all" ? (
