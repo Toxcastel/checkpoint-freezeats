@@ -14,14 +14,37 @@ const Profile = () => {
   const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
 
-  const [textValue, setTextValue] = useState({ firstName: "", lastName: "",password:"", address1:"",address2:""});
+  const [textValue, setTextValue] = useState({
+    firstName: "",
+    lastName: "",
+    email:user.email,
+    password: "",
+    address1: "",
+  });
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onTextChange = (e) =>
     setTextValue((prevState) => ({
       ...prevState,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
-  const handleSubmit = () => console.log(textValue);
+
+  const handleSubmit = () => {
+    textValue.firstName = !textValue.firstName
+      ? user.name
+      : textValue.firstName;
+    textValue.lastName = !textValue.lastName
+      ? user.lastname
+      : textValue.lastName;
+    textValue.password = !textValue.password
+      ? user.password
+      : textValue.password;
+    textValue.address1 = !textValue.address1
+      ? user.addresses[0]
+      : textValue.address1;
+    console.log(textValue);
+  };
 
   // intento de protección de ruta. La idea es capturar la validación desde la api, sin tomar en cuenta el reducer.
   useEffect(() => {
@@ -115,23 +138,30 @@ const Profile = () => {
               variant="standard"
             />
           </Grid>
-          <Grid item xs={12} width="30em">
-            <TextField
-              id="address2"
-              name="address2"
-              label="Otra dirección"
-              onChange={onTextChange}
-              fullWidth
-              autoComplete="shipping address-line2"
-              variant="standard"
-            />
-          </Grid>
           <Grid>
             <Button
               variant="contained"
               endIcon={<SendIcon />}
               sx={{ mt: 3, mb: 2 }}
-              onClick={handleSubmit}
+              onClick={(e) => {
+                e.preventDefault()
+                handleSubmit();
+                axios
+                  .put("/api/user/profile", {
+                    name: textValue.name,
+                    lastname: textValue.lastname,
+                    email: textValue.email,
+                    password: textValue.password,
+                  })
+                  .then((updateUser) => {
+                    if (!updateUser.data.ok) {
+                      setError(true);
+                      setErrorMessage(updateUser.data.errorMessage);
+                      return;
+                    }
+                    message.success("Cambios realizados");
+                  });
+              }}
             >
               Guardar
             </Button>
