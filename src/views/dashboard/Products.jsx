@@ -19,6 +19,7 @@ import AddProduct from "./AddProduct";
 
 const Products = () => {
     const products = useSelector((state) => state.adminProducts);
+    console.log("products: ", products)
     const loading = useSelector((state) => state.loading);
     const [deleteAction, setDeleteAction] = useState(true);
     const dispatch = useDispatch();

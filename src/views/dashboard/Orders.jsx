@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState} from "react";
+import { useState } from "react";
 import Link from "@mui/material/Link";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -44,9 +44,15 @@ export default function Orders({ ordersId }) {
         // ejecuto la logica
         let products = [];
         dispatch(getOrdersHistory(ordersId)).then(({ payload }) => {
-            payload.map(({ info }) =>
-                products.push({ pedido: info[0].products, totalPrice: 15000 })
-            );
+            console.log("soy el payload: ", payload);
+            payload.map((order) => {
+                products.push({
+                    pedido: order.info,
+                    totalPrice: order.total,
+                    paymentMethod: order.paymentMethod,
+                    shipping: order.shipping,
+                });
+            });
             setDisplayOrders(products);
         });
     };
@@ -65,8 +71,10 @@ export default function Orders({ ordersId }) {
                 <Table size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Info</TableCell>
-                            <TableCell>Sale Amount</TableCell>
+                            <TableCell>Información</TableCell>
+                            <TableCell>Pago total</TableCell>
+                            <TableCell>Método de pago</TableCell>
+                            <TableCell>Método de entrega</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -90,10 +98,14 @@ export default function Orders({ ordersId }) {
                                         )}
                                     </TableCell>
                                     <TableCell>{order.totalPrice}</TableCell>
+                                    <TableCell>{order.paymentMethod}</TableCell>
+                                    <TableCell>{order.shipping}</TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
+                                <TableCell> - </TableCell>
+                                <TableCell> - </TableCell>
                                 <TableCell> - </TableCell>
                                 <TableCell> - </TableCell>
                             </TableRow>

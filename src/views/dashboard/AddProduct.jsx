@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { adminGetAllProducts } from "../../store/reducers/adminProductsReducer";
 import { useDispatch } from "react-redux";
 import { useInput } from "../../hooks/useInput";
-import { message } from "antd";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { message, Typography } from "antd";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -21,7 +21,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 export default function AddProduct(props) {
     // variables formulario
     const name = useInput("name");
-    const description = useInput ("description");
+    const description = useInput("description");
     const category = useInput("category");
     const price = useInput("price");
     const stock = useInput("stock");
@@ -51,7 +51,7 @@ export default function AddProduct(props) {
                 stock: stock.value,
                 category: category.value,
                 imgUrl: imgUrl.value,
-                rating: rating.value
+                rating: rating.value,
             })
             .then(() => {
                 message.success("Product created!", 1);
@@ -69,9 +69,11 @@ export default function AddProduct(props) {
 
     return (
         <div>
-            <IconButton variant="outlined" onClick={handleClickOpen}>
-                <AddCircleIcon />
-            </IconButton>
+            <Box sx={{ flexDirection: 'row' }}>
+                <IconButton variant="outlined" onClick={handleClickOpen}>
+                    <AddCircleIcon />
+                </IconButton>
+            </Box>
             <Dialog open={open} onClose={handleClose}>
                 <Box component="form" onSubmit={handleSubmit}>
                     <DialogTitle>Añadir nuevo producto</DialogTitle>
@@ -84,7 +86,7 @@ export default function AddProduct(props) {
                             fullWidth
                             variant="standard"
                         >
-                            <InputLabel htmlFor="my-input">Name</InputLabel>
+                            <InputLabel htmlFor="my-input">Nombre</InputLabel>
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
@@ -100,7 +102,7 @@ export default function AddProduct(props) {
                             variant="standard"
                         >
                             <InputLabel htmlFor="my-input">
-                                Description
+                                Descripción
                             </InputLabel>
                             <Input
                                 id="my-input"
@@ -117,7 +119,7 @@ export default function AddProduct(props) {
                             }}
                         >
                             <InputLabel id="demo-simple-select-label">
-                                Category
+                                Categoría
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -147,7 +149,7 @@ export default function AddProduct(props) {
                             fullWidth
                             variant="standard"
                         >
-                            <InputLabel htmlFor="my-input">Price</InputLabel>
+                            <InputLabel htmlFor="my-input">Precio</InputLabel>
                             <Input
                                 id="my-input"
                                 aria-describedby="my-helper-text"
@@ -204,8 +206,8 @@ export default function AddProduct(props) {
                     </DialogContent>
                     <CssBaseline />
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit">Confirm</Button>
+                        <Button onClick={handleClose}>Cancelar</Button>
+                        <Button type="submit">Aceptar</Button>
                     </DialogActions>
                 </Box>
             </Dialog>

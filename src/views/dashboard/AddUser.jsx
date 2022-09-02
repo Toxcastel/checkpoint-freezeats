@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, IconButton } from "@mui/material";
 import { getAllUsers } from "../../store/reducers/adminUsersReducer";
 import { useInput } from "../../hooks/useInput";
 import { message } from "antd";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -66,12 +67,12 @@ export default function AddUser() {
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Add User
-            </Button>
+            <IconButton variant="outlined" onClick={handleClickOpen}>
+                <AddCircleIcon />
+            </IconButton>
             <Dialog open={open} onClose={handleClose}>
                 <Box component="form" onSubmit={handleSubmit}>
-                    <DialogTitle>Add new user</DialogTitle>
+                    <DialogTitle>Añadir nuevo usuario</DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
@@ -88,7 +89,7 @@ export default function AddUser() {
                             autoFocus
                             required
                             margin="dense"
-                            label="Password"
+                            label="Contraseña"
                             type="password"
                             id="password"
                             fullWidth
@@ -99,7 +100,7 @@ export default function AddUser() {
                             autoFocus
                             required
                             margin="dense"
-                            label="Name"
+                            label="Nombre"
                             type="text"
                             id="name"
                             fullWidth
@@ -110,7 +111,7 @@ export default function AddUser() {
                             autoFocus
                             required
                             margin="dense"
-                            label="Last name"
+                            label="Apellido"
                             type="text"
                             id="lastname"
                             fullWidth
@@ -126,7 +127,7 @@ export default function AddUser() {
                             }}
                         >
                             <InputLabel id="demo-simple-select-label">
-                                Role
+                                Rol
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -136,7 +137,7 @@ export default function AddUser() {
                                 onChange={handleChange}
                                 {...roles}
                             >
-                                <MenuItem value={"user"}>User</MenuItem>
+                                <MenuItem value={"user"}>Usuario</MenuItem>
                                 <MenuItem value={"admin"}>Admin</MenuItem>
                             </Select>
                         </FormControl>
@@ -144,7 +145,7 @@ export default function AddUser() {
                     <CssBaseline />
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit">Subscribe</Button>
+                        <Button type="submit">Aceptar</Button>
                     </DialogActions>
                 </Box>
             </Dialog>
