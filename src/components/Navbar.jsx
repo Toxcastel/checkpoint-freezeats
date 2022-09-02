@@ -59,7 +59,7 @@ const Navbar = () => {
         <AppBar position="static" sx={{ bgcolor: "#00897b" }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Link to="/">
+                    <Link style={{color:'white'}} to="/">
                         <Typography
                             variant="h6"
                             noWrap
@@ -75,7 +75,7 @@ const Navbar = () => {
                             }}
                         >
                             <Link to="/" onClick={home}>
-                                Freezeats
+                                <div style={{color:'white'}}>Freezeats</div>
                             </Link>
                         </Typography>
                     </Link>
@@ -210,7 +210,7 @@ const Navbar = () => {
                                     }}
                                     onClick={() => navigate("/dashboard")}
                                 >
-                                    <AdminPanelSettingsIcon />
+                                    <AdminPanelSettingsIcon  />
                                 </IconButton>
                             ) : (
                                 <></>
