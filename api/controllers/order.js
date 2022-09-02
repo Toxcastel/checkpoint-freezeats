@@ -12,10 +12,11 @@ const orderCtrl = {
   addOrder: (req, res) => {
     const id = req.user;
     const { total } = req.body;
-    Car.find({ user: id }).then((prods) => {
+    Car.findOne({ user: id }).then((prods) => {
+      const products = prods.products;
       User.findById(id).then((user) => {
         let newOrder = new Order({
-          info: prods,
+          info: products,
           user: id,
           total,
         });
@@ -28,17 +29,37 @@ const orderCtrl = {
     });
   },
 
-  findAllOrder: (req, res) => {
-    const { id } = req.headers;
-    Order.find({ user: id }).then((order) => {
-      res.status(200).send(order);
+  findOrder: (req, res) => {
+    const { id } = req.user;
+    Order.findOne({ user: id }).then((order) => {
+      let resp = {
+        info: [],
+        total: null,
+        user: "",
+        paymentMethod: "",
+        shipping: "",
+        address: {street: "", number: null, city: "", province: "", postalCode: null},
+      };
+      if (order) {
+        resp = {
+          info: order.info,
+          total: order.total,
+          user: order.user,
+          paymentMethod: order.paymentMethod,
+          shipping: order.shipping,
+          address: order.address,
+        };
+      }
+      res.status(200).send(resp);
     });
   },
 
   orderFullfiled: (req, res) => {
-    const id = req.headers.id;
-    Order.findOneAndUpdate({ user: id }, { state: "Fullfiled" }).then(
+    const id = req.user;
+    Order.findOne({ user: id }).then(
       (order) => {
+        console.log("order", order);
+        order.state = "Fullfiled";
         order.save();
         res.json(order);
         User.findById(id).then((user) => {
@@ -86,7 +107,7 @@ const orderCtrl = {
   },
 
   orderRejected: (req, res) => {
-    const id = req.headers.id;
+    const id = req.user;
     Order.findOneAndUpdate({ user: id }, { state: "Rejected" }).then(
       (order) => {
         order.save();
@@ -94,6 +115,34 @@ const orderCtrl = {
       }
     );
   },
+
+  orderShippingMethod: (req, res) => {
+    const id = req.user;
+    const { shippingMethod } = req.body;
+    Order.findOneAndUpdate({ user: id }, { shipping: shippingMethod }, {new:true}).then((order) => {
+      order.save();
+      res.json(order);
+    });
+  },
+
+  orderPaymentMethod: (req, res) => {
+    const id = req.user;
+    const { paymentMethod } = req.body;
+    Order.findOneAndUpdate({ user: id }, { paymentMethod }, {new:true}).then((order) => {
+      order.save();
+      res.json(order);
+    });
+  },
+
+  orderAddress: (req, res) => {
+    const id = req.user;
+      Order.findOne({ user: id }).then((order) => {
+        order.address = req.body;
+        order.save();
+        res.json(order);
+      }
+    );
+  }
 };
 
 module.exports = orderCtrl;

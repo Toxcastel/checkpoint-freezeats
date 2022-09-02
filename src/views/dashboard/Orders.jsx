@@ -21,7 +21,7 @@ export default function Orders({ ordersId }) {
         products: [],
         totalPrice: undefined,
     };
-    console.log("ordersId: ", ordersId);
+    
     // estados
     const [open, setOpen] = useState(false);
     const [foodCount, setFoodCount] = useState({});
@@ -32,12 +32,12 @@ export default function Orders({ ordersId }) {
 
     // handles
     const getFoodCount = (object) => {
-        console.log("soy el object que llega al get: ", object);
+        
         let prueba = [];
         for (const property in object) {
             prueba.push(<div>{`${property} x ${object[property]}`}</div>);
         }
-        console.log("soy prueba: ", prueba);
+       
         return prueba;
     };
     const handleClose = () => setOpen(false);
@@ -77,10 +77,7 @@ export default function Orders({ ordersId }) {
                         {displayOrders.length ? (
                             displayOrders.map((order, i) => (
                                 <TableRow key={i}>
-                                    {console.log(
-                                        "display order: ",
-                                        displayOrders
-                                    )}
+                        
                                     <TableCell key={i}>
                                         {order.pedido.forEach((sub, i) => {
                                             conteo[sub.name] =
@@ -91,7 +88,7 @@ export default function Orders({ ordersId }) {
                                             }
                                         })}
 
-                                        {console.log("resumen: ", resumen)}
+                                        
                                         {resumen.length ? (
                                             <>{getFoodCount(resumen[i])}</>
                                         ) : (

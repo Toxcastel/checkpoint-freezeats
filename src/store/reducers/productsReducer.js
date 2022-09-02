@@ -33,7 +33,6 @@ export const handleProducts = (paginationNumber) => (dispatch) => {
   }; 
 
 export const handleProductDetail = (product) =>(dispatch) =>{
- console.log(">>>>>", product,dispatch)
  dispatch(getProductDetail(product))
 }
 

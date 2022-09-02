@@ -15,15 +15,14 @@ import { fetchCart } from "../store/reducers/cartReducer";
 import { toggleCart } from "../store/reducers/cartShowReducer";
 import { Stack } from "@mui/system";
 import { Link } from "react-router-dom";
+import { addNewOrder } from "../store/reducers/orderReducer";
 
 
 const Car = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const {products} = useSelector((state) => state.cart);
-  console.log("products", products);
- 
-  console.log("cart", cart);
+
 
 const [cartInfo, setCartInfo] = useState([products]);
   const { right } = useSelector((state) => state.cartShow);
@@ -167,7 +166,7 @@ const total = cartInfo.reduce((acc, product) => {
                           return;
                         }
                         dispatch(setCart(updateCart.data.cart));
-                        products(updateCart.data.cart.products)})
+                        })
                     }}
                       
                   />
@@ -206,7 +205,7 @@ const total = cartInfo.reduce((acc, product) => {
                           return;
                         }
                         dispatch(setCart(updateCart.data.cart));
-                        products(updateCart.data.cart.products)})
+                        })
                     }}
                       
                   />
@@ -271,8 +270,9 @@ const total = cartInfo.reduce((acc, product) => {
           my: 4,
         }}
       >
+       
         <Stack direction="row" spacing={2}>
-          <Link to="/order">
+          <Link to="/checkout">
             <Button
               variant="contained"
               sx={{
@@ -284,6 +284,11 @@ const total = cartInfo.reduce((acc, product) => {
                   backgroundColor: "#009688",
                 },
               }}
+              onClick={() => {
+                dispatch(toggleCart(false))
+                dispatch(addNewOrder(total))
+              }}
+
             >
               Continuar compra
             </Button>

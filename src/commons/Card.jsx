@@ -74,7 +74,6 @@ const Cards = () => {
             axios
               .post("/api/car", {
                 products: product,
-                address: "Calle siempre-viva",
               })
               .then(() => {
                 dispatch(fetchCart());

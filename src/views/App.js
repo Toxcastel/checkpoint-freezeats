@@ -12,9 +12,12 @@ import Category from "../components/Category";
 import Order from "../components/Order.jsx";
 import { fetchCart } from "../store/reducers/cartReducer.js";
 import Dashboard from "./dashboard/Dashboard.jsx";
+import { fetchOrder } from "../store/reducers/orderReducer.js";
+import Resume from "../components/Resume.jsx";
 
 function App() {
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(logPersist());
   }, [dispatch]);
@@ -22,6 +25,8 @@ function App() {
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
+
+ 
 
   return (
     <div className="App">
@@ -33,8 +38,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/car" element={<Car />} />
         <Route path="/products/category/:category" element={<Category />} />
-        <Route path="/order" element={<Order />} />
+        <Route path="/checkout" element={<Order />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/resume" element={<Resume />} />
       </Routes>
       <Car />
     </div>
