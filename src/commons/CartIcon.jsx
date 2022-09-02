@@ -16,9 +16,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const CartIcon=() => {
 
+  const [products]= useSelector((state)=> [state.cart.products])
+  
   return (
     <IconButton aria-label="cart">
-      <StyledBadge badgeContent={1} sx={{color:"white"}} >
+      <StyledBadge badgeContent={products.length} sx={{color:"white"}} >
         <ShoppingCartIcon  />
       </StyledBadge>
     </IconButton>

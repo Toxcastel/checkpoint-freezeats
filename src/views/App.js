@@ -12,20 +12,26 @@ import Car from "../components/Car.jsx";
 import Order from "../components/Order.jsx";
 import { fetchCart } from "../store/reducers/cartReducer.js";
 import Dashboard from "./dashboard/Dashboard.jsx";
+
 import { getAdmin } from "../store/reducers/adminLog.js";
 import CategoryContainer from "../components/CategoryContainer.jsx";
 
 
+import Fav from "../components/Fav.jsx";
+
 function App() {
   const dispatch = useDispatch();
+  // const {user}=useSelector((state)=> state.user)
+
   useEffect(() => {
     dispatch(logPersist());
     dispatch(getAdmin())
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
+
+
+  // useEffect(() => {
+  // }, [dispatch]);
 
   return (
     <div className="App">
@@ -39,6 +45,7 @@ function App() {
         <Route path="/products/category/:category" element={<CategoryContainer />} />
         <Route path="/order" element={<Order />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/fav" element={<Fav />} />
       </Routes>
       <Car />
     </div>

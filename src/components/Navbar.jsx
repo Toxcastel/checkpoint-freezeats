@@ -13,15 +13,15 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector, useDispatch } from "react-redux";
 import LunchDiningSharpIcon from "@mui/icons-material/LunchDiningSharp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../commons/SearchBar";
 import CartIcon from "../commons/CartIcon";
 import { backHome } from "../store/reducers/productsReducer";
 import { toggleCart } from "../store/reducers/cartShowReducer";
 import axios from "axios";
-import {  logOut } from "../store/reducers/userReducer";
+import { logOut } from "../store/reducers/userReducer";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user);
@@ -48,9 +48,12 @@ const Navbar = () => {
     };
 
     const handleLogOut = () => {
-        axios.post("/api/user/logout").then(() => dispatch(logOut()));
+        axios.post("/api/user/logout").then(() => {
+            message.success(`Chau`, 1);
+            dispatch(logOut());
+            navigate("/");
+        });
     };
-
 
     const home = () => {
         dispatch(backHome());
@@ -60,7 +63,7 @@ const Navbar = () => {
         <AppBar position="static" sx={{ bgcolor: "#00897b" }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Link style={{color:'white'}} to="/">
+                    <Link style={{ color: "white" }} to="/">
                         <Typography
                             variant="h6"
                             noWrap
@@ -76,7 +79,7 @@ const Navbar = () => {
                             }}
                         >
                             <Link to="/" onClick={home}>
-                                <div style={{color:'white'}}>Freezeats</div>
+                                <div style={{ color: "white" }}>Freezeats</div>
                             </Link>
                         </Typography>
                     </Link>
@@ -116,14 +119,15 @@ const Navbar = () => {
                             }}
                         >
                             <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">
-                                    Productos
-                                </Typography>
+                                <Typography textAlign="center">Home</Typography>
                                 <Typography textAlign="center">
                                     Categorias
                                 </Typography>
                                 <Typography textAlign="center">
                                     Carrito
+                                </Typography>
+                                <Typography textAlign="center">
+                                    Favoritos
                                 </Typography>
                             </MenuItem>
                         </Menu>
@@ -154,7 +158,7 @@ const Navbar = () => {
                         }}
                     >
                         <Button>
-                            <Link to="/products"> Favorites</Link>
+                            <Link to="/fav"> Favorites</Link>
                         </Button>
                     </Box>
                     <SearchBar />
@@ -211,7 +215,7 @@ const Navbar = () => {
                                     }}
                                     onClick={() => navigate("/dashboard")}
                                 >
-                                    <AdminPanelSettingsIcon  />
+                                    <AdminPanelSettingsIcon />
                                 </IconButton>
                             ) : (
                                 <></>
@@ -242,6 +246,5 @@ const Navbar = () => {
             </Container>
         </AppBar>
     );
-
 };
 export default Navbar;
