@@ -120,12 +120,18 @@ const Navbar = () => {
                         >
                             <MenuItem onClick={handleCloseNavMenu}>
                                 <Typography textAlign="center">Home</Typography>
+                            </MenuItem>
+                            <MenuItem onClick={handleCloseNavMenu}>
                                 <Typography textAlign="center">
                                     Categorias
                                 </Typography>
+                            </MenuItem>
+                            <MenuItem onClick={handleCloseNavMenu}>
                                 <Typography textAlign="center">
                                     Carrito
                                 </Typography>
+                            </MenuItem>
+                            <MenuItem onClick={handleCloseNavMenu}>
                                 <Typography textAlign="center">
                                     Favoritos
                                 </Typography>
