@@ -13,15 +13,20 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector, useDispatch } from "react-redux";
 import LunchDiningSharpIcon from "@mui/icons-material/LunchDiningSharp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../commons/SearchBar";
 import CartIcon from "../commons/CartIcon";
 import { backHome } from "../store/reducers/productsReducer";
 import { toggleCart } from "../store/reducers/cartShowReducer";
+import { logOut } from "../store/reducers/userReducer";
+import axios from "axios";
+import { message } from "antd";
+
 
 const Navbar = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -43,6 +48,21 @@ const Navbar = () => {
 
   const home = () => {
     dispatch(backHome());
+  };
+
+  const logout = (e) => {
+    e.preventDefault();
+    axios
+      .post("/api/user/logout")
+      .then((res) => {
+        console.log(res);
+        dispatch(logOut());
+        message.success(`Chau`, 1);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -100,9 +120,10 @@ const Navbar = () => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Productos</Typography>
+                <Typography textAlign="center">Home</Typography>
                 <Typography textAlign="center">Categorias</Typography>
                 <Typography textAlign="center">Carrito</Typography>
+                <Typography textAlign="center">Favoritos</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -127,7 +148,7 @@ const Navbar = () => {
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button>
-              <Link to="/products"> Favorites</Link>
+              <Link to="/fav"> Favorites</Link>
             </Button>
           </Box>
           <SearchBar />
@@ -158,7 +179,7 @@ const Navbar = () => {
                   <Link to="/profile">Profile</Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link to="/">Logout</Link>
+                  <Typography onClick={logout}>Logout</Typography>
                 </MenuItem>
               </Menu>
               <Button onClick={() => dispatch(toggleCart(true))}>

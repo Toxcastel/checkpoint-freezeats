@@ -13,6 +13,8 @@ export const logPersist = createAsyncThunk("LOG_PERSIST", () => {
   });
 });
 
+export const logOut= createAction("LOG_OUT");
+
 const userReducer = createReducer(
   {},
   {
@@ -21,6 +23,7 @@ const userReducer = createReducer(
     [logPersist.rejected]: (state, action) => {
       state.rejected = true;
     },
+    [logOut.fulfilled] : (state, action)=> state = {}
   }
 );
 

@@ -7,7 +7,7 @@ const favCtrl = {
     Product.findById({ _id: productId }).then((product) => {
       User.findById(userId)
         .then((user) => {
-          user.favorites = user.favorites.concat(product.id);
+          user.favorites = user.favorites.push(productId);
           user.save();
           res.json(product);
         })

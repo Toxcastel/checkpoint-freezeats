@@ -11,11 +11,31 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
 import Box from "@mui/material/Box";
 import Pagination from "./Pagination";
-import { handleProductDetail } from "../store/reducers/productsReducer";
+import {
+  addtoFav,
+  handleProductDetail,
+} from "../store/reducers/productsReducer";
 import ProductDetail from "./ProductDetail";
 import { message } from "antd";
 import { textLength } from "../utils";
 import { fetchCart } from "../store/reducers/cartReducer";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { styled } from "@mui/material/styles";
+import Collapse from "@mui/material/Collapse";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Checkbox } from "@mui/material";
+import { addFav } from "../store/reducers/productsReducer";
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 const Cards = () => {
   const [products, search, productDetail] = useSelector((state) => [
@@ -24,6 +44,7 @@ const Cards = () => {
     state.products.productDetail,
   ]);
   const user = useSelector((state) => state.user);
+  const [expanded, setExpanded] = React.useState(false);
 
   let componente;
   search.length > 0 ? (componente = search) : (componente = products);
@@ -31,6 +52,10 @@ const Cards = () => {
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   const handleClick = (product) => {
     dispatch(handleProductDetail(product));
@@ -61,15 +86,14 @@ const Cards = () => {
         }}
       >
         {componente.map((product) => {
-          const addFavorite = (e) => {
+          /*  const addFavorite = (e) => {
             e.preventDefault();
             axios
               .post(`/api/fav`, {
                 id: product.id,
               })
               .then(() => message.success("Agregado a Favoritos"));
-          };
-          const addProductToCart = (e) => {
+          } */ const addProductToCart = (e) => {
             e.preventDefault();
             axios
               .post("/api/car", {
@@ -83,12 +107,9 @@ const Cards = () => {
               .catch((err) => console.log(err));
           };
           return (
-            <Card
-              sx={{ width: 200, mx: 2, my: 3 }}
-              key={product.id}
-              >
+            <Card sx={{ width: 200, mx: 2, my: 3 }} key={product.id}>
               <CardMedia
-              onClick={() => handleClick(product)}
+                onClick={() => handleClick(product)}
                 component="img"
                 height="194"
                 image={product.imgUrl}
@@ -99,17 +120,32 @@ const Cards = () => {
                   {product.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {textLength(product.description)}
+                  {expanded == false ? textLength(product.description) : ""}
+                  <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <Typography>{product.description}</Typography>
+                  </Collapse>
+                  <ExpandMore
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                  >
+                    <ExpandMoreIcon />
+                  </ExpandMore>
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
                 {user.id ? (
-                  <IconButton
-                    aria-label="add to favorites"
-                    onClick={addFavorite}
-                  >
-                    <FavoriteIcon />
-                  </IconButton>
+                  <Box>
+                    <Checkbox
+                      onClick={() => {
+                        dispatch(addtoFav(product.id));
+                        message.success("Agregado a Favoritos");
+                      }}
+                      icon={<FavoriteBorder />}
+                      checkedIcon={<Favorite sx={{ color: "red" }} />}
+                    />
+                  </Box>
                 ) : (
                   ""
                 )}
@@ -122,7 +158,6 @@ const Cards = () => {
         })}
       </Box>
       <Pagination />
-
       {open && (
         <ProductDetail
           handleClickOpen={handleClickOpen}

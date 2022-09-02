@@ -19,9 +19,9 @@ export default function PaginationControlled() {
     pageCount = Math.ceil(allProducts.length / 5);
   }
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{color: "teal"}}>
       <Typography>Page: {page}</Typography>
-      <Pagination count={pageCount} page={page} onChange={handleChange} />
+      <Pagination sx={{bgcolor: "#009688", color:"white"}} count={pageCount} page={page} onChange={handleChange} />
     </Stack>
   );
 }

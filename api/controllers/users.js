@@ -53,7 +53,7 @@ const userCtrl = {
     },
 
     logout: (req, res) => {
-        res.clearCookie();
+        res.clearCookie("jwt");
         res.sendStatus(204);
     },
 

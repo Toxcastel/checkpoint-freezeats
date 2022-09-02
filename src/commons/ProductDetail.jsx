@@ -17,9 +17,7 @@ import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-
-const product =
-  "https://i.pinimg.com/originals/75/1b/5c/751b5c7db42cb7b4a55706438c779fc4.jpg";
+import { message } from "antd";
 
 const ProductDetail = (props) => {
   const { open, handleClose, productDetail } = props;
@@ -31,6 +29,8 @@ const ProductDetail = (props) => {
   const Item = styled("div")(({ theme }) => ({
     textAlign: "center",
   }));
+
+
 
   return (
     <div>
@@ -55,7 +55,7 @@ const ProductDetail = (props) => {
             <Box sx={{ display: "inline-block", width: "50%" }}>
               <CardMedia
                 component="img"
-                image={product}
+                image={productDetail.imgUrl}
                 alt="Nombre del plato"
               />
             </Box>
@@ -65,7 +65,7 @@ const ProductDetail = (props) => {
                   Descripcion del producto
                 </Typography>
               </Item>
-              <Typography variant="caption">                
+              <Typography variant="caption">
                 {productDetail.description}
               </Typography>
               <br />
@@ -79,9 +79,7 @@ const ProductDetail = (props) => {
                       <InventoryOutlinedIcon /> Stock
                     </Typography>
 
-                    <Typography variant="h6">
-                      {productDetail.stock}
-                    </Typography>
+                    <Typography variant="h6">{productDetail.stock}</Typography>
                   </Item>
                 </Box>
                 <Box sx={{ display: "inline-block", width: "35%" }}>
@@ -89,9 +87,7 @@ const ProductDetail = (props) => {
                     <Typography variant="subtitle2">
                       <StarBorderOutlinedIcon /> Calificación
                     </Typography>
-                    <Typography variant="h6">
-                      {productDetail.rating}
-                    </Typography>
+                    <Typography variant="h6">{productDetail.rating}</Typography>
                   </Item>
                 </Box>
                 <Box sx={{ display: "inline-block", width: "39%" }}>
@@ -112,8 +108,8 @@ const ProductDetail = (props) => {
                       <IconButton
                         aria-label="add to favorites"
                         sx={{
-                          "&:hover": { color: "white", bgcolor: "#0496FF" },
-                          color: "#CFCFCF",
+                          "&:hover": { color: "white", bgcolor: "#d32f2f" },
+                          color: "red",
                           boxShadow: 1,
                         }}
                       >
