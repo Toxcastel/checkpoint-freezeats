@@ -7,23 +7,23 @@ import { Link } from "react-router-dom";
 
 const images = [
   {
-    url: "https://www.cronista.com/files/image/304/304938/5ffe20aff1b8b.png",
-    title: "Argentina 🇦🇷",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_0mWdXj99zMznvZjX9mgug24rA_FMg0PpOA&usqp=CAU",
+    title: "ARGENTINA 🇦🇷",
     width: "25%",
   },
   {
-    url: "https://constanzaramos.com/wp-content/uploads/2020/08/s260mkvv0wu21.png",
-    title: "Chilena 🇨🇱",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvwEZeNhSM4qx0fNnGZe_sJ4QzPfZfeXijZA&usqp=CAU",
+    title: "CHILENA 🇨🇱",
     width: "25%",
   },
   {
-    url: "https://www.cocina-colombiana.com/base/stock/Recipe/421-image/421-image_web.jpg",
-    title: "Colombiana 🇨🇴",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1aToq4RhB3eHjHaRG_Pw2D3JJMOqBmWCboA&usqp=CAU",
+    title: "COLOMBIANA 🇨🇴",
     width: "25%",
   },
   {
-    url: "https://comidasvenezolanas.net/wp-content/uploads/2019/04/Pabellon-criollo-1.jpg",
-    title: "Venezolana 🇻🇪",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK18woAuSfCZlqsd30eCLPdXdFc1C0vNHHDg&usqp=CAU",
+    title: "VENEZOLANA 🇻🇪",
     width: "25%",
   },
 ];
@@ -95,7 +95,7 @@ const ImageMarked = styled("span")(({ theme }) => ({
 const Header = () => {
   return (
     <Box
-      sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
+      sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%",boxShadow: 10 }}
     >
       {images.map((image) => (
         <ImageButton

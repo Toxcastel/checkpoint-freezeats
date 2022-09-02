@@ -7,6 +7,7 @@ const prodCtrl = {
     const products = await Product.find()
       .skip(pages * productsPerPage)
       .limit(productsPerPage);
+      console.log('products',products);
     res.send(products);
   },
   getAllProducts: async (req, res) => {

@@ -8,11 +8,13 @@ import Login from "../components/Login.jsx";
 import Signup from "../components/Signup.jsx";
 import Home from "../components/Home.jsx";
 import Car from "../components/Car.jsx";
-import Category from "../components/Category";
+// import Category from "../components/Category";
 import Order from "../components/Order.jsx";
 import { fetchCart } from "../store/reducers/cartReducer.js";
 import Dashboard from "./dashboard/Dashboard.jsx";
 import { getAdmin } from "../store/reducers/adminLog.js";
+import CategoryContainer from "../components/CategoryContainer.jsx";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/car" element={<Car />} />
-        <Route path="/products/category/:category" element={<Category />} />
+        <Route path="/products/category/:category" element={<CategoryContainer />} />
         <Route path="/order" element={<Order />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>

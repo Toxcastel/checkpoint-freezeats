@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
 import Box from "@mui/material/Box";
-import Pagination from "./Pagination";
 import { handleProductDetail } from "../store/reducers/productsReducer";
 import ProductDetail from "./ProductDetail";
 import { message } from "antd";
@@ -51,7 +50,6 @@ const Cards = () => {
         sx={{
           width: "auto",
           height: "auto",
-          backgroundColor: "white",
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
@@ -83,16 +81,14 @@ const Cards = () => {
               .catch((err) => console.log(err));
           };
           return (
-            <Card
-              sx={{ width: 200, mx: 2, my: 3 }}
-              key={product.id}
-              >
+            <Card sx={{ width: 200, mx: 2, my: 3,boxShadow: 10, borderRadius:5, }} key={product.id}>
               <CardMedia
-              onClick={() => handleClick(product)}
+                onClick={() => handleClick(product)}
                 component="img"
                 height="194"
                 image={product.imgUrl}
                 alt="Nombre del plato"
+                // sx={{ boxShadow: 5, borderRadius:50 }}
               />
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
@@ -121,7 +117,6 @@ const Cards = () => {
           );
         })}
       </Box>
-      <Pagination />
 
       {open && (
         <ProductDetail

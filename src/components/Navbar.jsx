@@ -19,7 +19,7 @@ import CartIcon from "../commons/CartIcon";
 import { backHome } from "../store/reducers/productsReducer";
 import { toggleCart } from "../store/reducers/cartShowReducer";
 import axios from "axios";
-import { logHandler, logOut } from "../store/reducers/userReducer";
+import {  logOut } from "../store/reducers/userReducer";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { useNavigate } from "react-router-dom";
 
@@ -51,6 +51,7 @@ const Navbar = () => {
         axios.post("/api/user/logout").then(() => dispatch(logOut()));
     };
 
+
     const home = () => {
         dispatch(backHome());
     };
@@ -79,9 +80,9 @@ const Navbar = () => {
                             </Link>
                         </Typography>
                     </Link>
-
                     <Box
                         sx={{
+                            boxShadow: 10,
                             flexGrow: 1,
                             display: { xs: "flex", md: "none" },
                         }}
@@ -241,5 +242,6 @@ const Navbar = () => {
             </Container>
         </AppBar>
     );
+
 };
 export default Navbar;
