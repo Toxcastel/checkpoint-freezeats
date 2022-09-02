@@ -10,7 +10,6 @@ const orderSchema = new Schema(
     },
     user: String,
     total: Number,
-    user: String,
   },
   { versionKey: false }
 );
